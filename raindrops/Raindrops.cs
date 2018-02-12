@@ -15,14 +15,10 @@ public static class Raindrops
 
     public static string Convert(int number)
     {
-        var factors = Enumerable.Range(1, number).Where(n => number % n == 0);
-        var intersect = factors.Intersect(new int[] { 3, 5, 7 }).OrderBy(x => x);
-        var result = new StringBuilder();
-        foreach (var factor in intersect)
-        {
-            result.Append(mapping[factor]);
-        }
-        
-        return result.Length > 0 ? result.ToString() : number.ToString();
+        var factorSounds = mapping.Keys
+            .Where(factor => (number % factor) == 0)
+            .Select(factor => mapping[factor])
+            .DefaultIfEmpty(number.ToString());
+        return String.Join("", factorSounds);
     }
 }
