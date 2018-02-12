@@ -4,6 +4,6 @@ public static class TwoFer
 {
     public static string Name(string input = null)
     {
-        return $"One for {(string.IsNullOrEmpty(input) ? "you" : input)}, one for me.";
+        return $"One for { input ?? "you" }, one for me.";
     }
 }
