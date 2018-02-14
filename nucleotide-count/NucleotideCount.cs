@@ -6,18 +6,15 @@ public class NucleotideCount
 {
     public NucleotideCount(string sequence)
     {
-        if (sequence.Count(c => !"ATCG".Contains(c)) > 0)
+        var sequenceToUpper = sequence.ToUpper();
+        if (sequenceToUpper.Count(c => !"ATCG".Contains(c)) > 0)
             throw new InvalidNucleotideException();
 
         NucleotideCounts = new Dictionary<char, int>();
-        NucleotideCounts['A'] = 0;
-        NucleotideCounts['T'] = 0;
-        NucleotideCounts['C'] = 0;
-        NucleotideCounts['G'] = 0;
-        sequence.ToUpper()
-            .Where(c => "ATCG".Contains(c))
-            .ToList()
-            .ForEach(c => NucleotideCounts[c]++);
+        NucleotideCounts.Add('A', sequenceToUpper.Count(c => c == 'A'));
+        NucleotideCounts.Add('C', sequenceToUpper.Count(c => c == 'C'));
+        NucleotideCounts.Add('G', sequenceToUpper.Count(c => c == 'G'));
+        NucleotideCounts.Add('T', sequenceToUpper.Count(c => c == 'T'));
     }
 
     public IDictionary<char, int> NucleotideCounts
