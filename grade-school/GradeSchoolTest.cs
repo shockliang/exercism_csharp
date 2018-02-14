@@ -82,4 +82,20 @@ public class GradeSchoolTest
         var expected = new[] { "Anna", "Barb", "Charlie", "Alex", "Peter", "Zoe", "Jim" };
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void Adding_douplcate_student_name_should_be_ignored()
+    {
+        var school = new School();
+        school.Add("Franklin", 5);
+        school.Add("Bradley", 5);
+        school.Add("Jeff", 1);
+        school.Add("Jeff", 2);
+        
+        var actual = school.Grade(1);
+
+        var expected = new[] { "Jeff", "Bradley", "Franklin" };
+        Assert.Equal(expected, actual);
+
+    }
 }

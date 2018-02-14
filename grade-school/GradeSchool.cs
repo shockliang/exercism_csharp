@@ -8,17 +8,23 @@ public class School
 
     public void Add(string student, int grade)
     {
-        students.Add(new Student(student, grade));
+        if (students.FirstOrDefault(x=>x.Name.Equals(student)) == null)
+            students.Add(new Student(student, grade));
     }
 
     public IEnumerable<string> Roster()
     {
-        return students.OrderBy(x => x.Grade).ThenBy(x => x.Name).Select(x => x.Name);
+        return from student in students
+               orderby student.Grade, student.Name
+               select student.Name;
     }
 
     public IEnumerable<string> Grade(int grade)
     {
-        return students.OrderBy(x => x.Grade).ThenBy(x => x.Name).Where(x => x.Grade >= grade).Select(x => x.Name);
+        return from student in students
+               where student.Grade >= grade
+               orderby student.Grade, student.Name
+               select student.Name;
     }
 }
 
