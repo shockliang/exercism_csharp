@@ -4,35 +4,25 @@ using System.Collections.Generic;
 
 public class NucleotideCount
 {
-    private IDictionary<char, int> nucleotideCount;
     public NucleotideCount(string sequence)
     {
-        nucleotideCount = CalculateNucleotideCount(sequence);
+        if (sequence.Count(c => !"ATCG".Contains(c)) > 0)
+            throw new InvalidNucleotideException();
+
+        NucleotideCounts = new Dictionary<char, int>();
+        NucleotideCounts['A'] = 0;
+        NucleotideCounts['T'] = 0;
+        NucleotideCounts['C'] = 0;
+        NucleotideCounts['G'] = 0;
+        sequence.ToUpper()
+            .Where(c => "ATCG".Contains(c))
+            .ToList()
+            .ForEach(c => NucleotideCounts[c]++);
     }
 
-    public IDictionary<char, int> NucleotideCounts => nucleotideCount;
-
-    private IDictionary<char, int> CalculateNucleotideCount(string sequence)
+    public IDictionary<char, int> NucleotideCounts
     {
-        var result = new Dictionary<char, int>()
-        {
-            ['A'] = 0,
-            ['C'] = 0,
-            ['G'] = 0,
-            ['T'] = 0
-        };
-
-        var charArray = sequence.ToUpper().ToCharArray();
-
-        foreach (var c in charArray)
-        {
-            if (result.ContainsKey(c))
-                result[c]++;
-            else
-                throw new InvalidNucleotideException();
-        }
-
-        return result;
+        get;
     }
 }
 
