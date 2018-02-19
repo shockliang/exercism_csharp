@@ -1,50 +1,28 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 public static class Bob
 {
-    private static Regex lettersRegex = new Regex(@"[a-zA-Z]");
-    private static Regex numberRegex = new Regex(@"[0-9]");
-
     public static string Response(string statement)
     {
-        statement = statement.TrimEnd();
+        string response = "Whatever.";
 
-        if (IsQuestion(statement))
-            if (IsYell(statement) && IsLetters(statement))
-                return "Calm down, I know what I'm doing!";
-            else
-                return "Sure.";
-        else if (IsYell(statement))
-            return "Whoa, chill out!";
-        else if (IsSilence(statement))
-            return "Fine. Be that way!";
-        else
-            return "Whatever.";
-    }
+        statement = statement.Trim();
 
-    private static bool IsQuestion(string statement)
-    {
-        return statement.EndsWith("?");
-    }
+        bool saidNothing = statement.Length == 0;
+        bool isYelling = !saidNothing && statement.Any(char.IsUpper) && statement.Where(char.IsLetter).All(char.IsUpper);
+        bool isQuestioning = !saidNothing && statement.EndsWith("?");
 
-    private static bool IsYell(string statement)
-    {
-        return statement == statement.ToUpper() && !IsSilence(statement) && !IsOnlyNumber(statement);
-    }
+        if (isYelling && isQuestioning)
+            response = "Calm down, I know what I'm doing!";
+        else if (isYelling)
+            response = "Whoa, chill out!";
+        else if (isQuestioning)
+            response = "Sure.";
+        else if (saidNothing)
+            response = "Fine. Be that way!";
 
-    private static bool IsSilence(string statement)
-    {
-        return string.IsNullOrEmpty(statement) || string.IsNullOrWhiteSpace(statement);
-    }
-
-    private static bool IsLetters(string statement)
-    {
-        return lettersRegex.IsMatch(statement);
-    }
-
-    private static bool IsOnlyNumber(string statement)
-    {
-        return numberRegex.IsMatch(statement) && !lettersRegex.IsMatch(statement);
+        return response;
     }
 }
