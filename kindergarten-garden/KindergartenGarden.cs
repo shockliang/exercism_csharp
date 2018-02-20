@@ -4,69 +4,46 @@ using System.Collections.Generic;
 
 public enum Plant
 {
-    Violets,
-    Radishes,
-    Clover,
-    Grass
+    Violets = 'V',
+    Radishes = 'R',
+    Clover = 'C',
+    Grass = 'G'
 }
 
 public class KindergartenGarden
 {
-    private List<string> students = new List<string>(new string[]
+    private static readonly List<string> DefaultStudents = new List<string>
     {
-        "Alice", "Bob", "Charlie", "David",
-        "Eve", "Fred", "Ginny", "Harriet",
-        "Ileana", "Joseph", "Kincaid", "Larry"
-    }).OrderBy(x => x).ToList();
+        "Alice", "Bob", "Charlie", "David", "Eve", "Fred", "Ginny", "Harriet", "Ileana", "Joseph", "Kincaid", "Larry"
+    };
 
-    private Garden[] gardens;
+    private Dictionary<string, List<Plant>> garden;
 
-    public KindergartenGarden(string diagram)
+    public KindergartenGarden(string diagram) : this(diagram, DefaultStudents)
     {
-        var plantBucket = diagram.Split("\n");
-        var holderCount = plantBucket.FirstOrDefault().Count() / 2;
-        gardens = new Garden[students.Count];
-
-        for (int i = 0; i < holderCount; i++)
-        {
-            var plants = plantBucket[0].Skip(i * 2).Take(2).ToArray().Concat(plantBucket[1].Skip(i * 2).Take(2)).ToArray();
-            gardens[i] = new Garden(students[i], plants);
-        }
-
     }
 
     public KindergartenGarden(string diagram, IEnumerable<string> students)
     {
+        garden = students.ToDictionary(s => s, s => new List<Plant>());
+
+        int n = 0;
+        foreach (char c in diagram)
+        {
+            if (char.IsLetter(c))
+            {
+                garden[students.ElementAt(n / 2)].Add((Plant)c);
+                n++;
+            }
+            else
+            {
+                n = 0;
+            }
+        }
     }
 
     public IEnumerable<Plant> Plants(string student)
     {
-        return gardens.Where(x => x.Holer.Equals(student)).FirstOrDefault().Plants;
-    }
-}
-
-internal class Garden
-{
-    private static readonly IDictionary<char, Plant> mapping = new Dictionary<char, Plant>()
-    {
-        ['V'] = Plant.Violets,
-        ['R'] = Plant.Radishes,
-        ['C'] = Plant.Clover,
-        ['G'] = Plant.Grass,
-    };
-
-    public string Holer { get; }
-
-    public IEnumerable<Plant> Plants { get; }
-
-    public Garden(string holer, IEnumerable<char> plants)
-    {
-        this.Holer = holer;
-        this.Plants = PlantParser(plants);
-    }
-
-    private IEnumerable<Plant> PlantParser(IEnumerable<char> plants)
-    {
-        return plants.Select(x => mapping[x]);
+        return garden[student];
     }
 }
