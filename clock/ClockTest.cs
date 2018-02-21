@@ -137,112 +137,112 @@ public class ClockTest
         Assert.Equal("22:10", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_minutes()
     {
         var sut = new Clock(10, 0);
         Assert.Equal("10:03", sut.Add(3).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_no_minutes()
     {
         var sut = new Clock(6, 41);
         Assert.Equal("06:41", sut.Add(0).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_to_next_hour()
     {
         var sut = new Clock(0, 45);
         Assert.Equal("01:25", sut.Add(40).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_more_than_one_hour()
     {
         var sut = new Clock(10, 0);
         Assert.Equal("11:01", sut.Add(61).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_more_than_two_hours_with_carry()
     {
         var sut = new Clock(0, 45);
         Assert.Equal("03:25", sut.Add(160).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_across_midnight()
     {
         var sut = new Clock(23, 59);
         Assert.Equal("00:01", sut.Add(2).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_more_than_one_day_1500_min_25_hrs_()
     {
         var sut = new Clock(5, 32);
         Assert.Equal("06:32", sut.Add(1500).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_more_than_two_days()
     {
         var sut = new Clock(1, 1);
         Assert.Equal("11:21", sut.Add(3500).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_minutes()
     {
         var sut = new Clock(10, 3);
         Assert.Equal("10:00", sut.Add(-3).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_to_previous_hour()
     {
         var sut = new Clock(10, 3);
         Assert.Equal("09:33", sut.Add(-30).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_more_than_an_hour()
     {
         var sut = new Clock(10, 3);
         Assert.Equal("08:53", sut.Add(-70).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_across_midnight()
     {
         var sut = new Clock(0, 3);
         Assert.Equal("23:59", sut.Add(-4).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_more_than_two_hours()
     {
         var sut = new Clock(0, 0);
         Assert.Equal("21:20", sut.Add(-160).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_more_than_two_hours_with_borrow()
     {
         var sut = new Clock(6, 15);
         Assert.Equal("03:35", sut.Add(-160).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_more_than_one_day_1500_min_25_hrs_()
     {
         var sut = new Clock(5, 32);
         Assert.Equal("04:32", sut.Add(-1500).ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_more_than_two_days()
     {
         var sut = new Clock(2, 20);

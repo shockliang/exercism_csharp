@@ -4,16 +4,7 @@ public class Clock
 {
     public Clock(int hours, int minutes)
     {
-        if (minutes >= 60)
-        {
-            hours += minutes / 60;
-        }
-        else if (minutes < 0)
-        {
-            hours -= (Math.Abs((minutes / 60)) + 1);
-        }
-
-        Hours = HoursParser(hours);
+        Hours = HoursParser(hours, minutes);
         Minutes = MinutesParser(minutes);
     }
 
@@ -23,7 +14,9 @@ public class Clock
 
     public Clock Add(int minutesToAdd)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        Hours = HoursParser(Hours, Minutes + minutesToAdd);
+        Minutes = MinutesParser(Minutes + minutesToAdd);
+        return this;
     }
 
     public Clock Subtract(int minutesToSubtract)
@@ -36,9 +29,30 @@ public class Clock
         return $"{Hours.ToString("D2")}:{Minutes.ToString("D2")}";
     }
 
-    private int HoursParser(int hours)
+    private int HoursParser(int hours, int minutes)
     {
-        return hours >= 0 ? hours % 24 : 24 + (hours % 24);
+        if (minutes >= 60)
+        {
+            hours += minutes / 60;
+        }
+        else if (minutes < 0)
+        {
+            hours -= (Math.Abs((minutes / 60)) + 1);
+        }
+
+        if (hours >= 0)
+        {
+            hours %= 24;
+        }
+        else
+        {
+            if (hours % 24 == 0)
+                hours = 0;
+            else
+                hours = 24 + (hours % 24);
+        }
+
+        return hours;
     }
 
     private int MinutesParser(int minutes)
