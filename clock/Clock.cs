@@ -1,30 +1,48 @@
 using System;
 
-public struct Clock
+public struct Clock : IEquatable<Clock>
 {
+    int time;
+    const int MAX_MINUTES_IN_DAY = 24 * 60;
     public Clock(int hours, int minutes)
     {
-        Hours = hours + Math.DivRem(minutes, 60, out int m);
-        Minutes = m;
-
-        if (Minutes < 0)
-        {
-            Minutes += 60;
-            Hours--;
-        }
-
-        Hours %= 24;
-
-        if (Hours < 0) Hours += 24;
+        time = (hours * 60 + minutes) % MAX_MINUTES_IN_DAY;
+        if (time < 0) time = MAX_MINUTES_IN_DAY + time;
     }
 
-    public int Hours { get; }
+    public int Hours
+    {
+        get
+        {
+            return time / 60;
+        }
+    }
 
-    public int Minutes { get; }
+    public int Minutes
+    {
+        get
+        {
+            return time % 60;
+        }
+    }
 
-    public Clock Add(int minutesToAdd) => new Clock(Hours, Minutes + minutesToAdd);
+    public Clock Add(int minutesToAdd)
+    {
+        return new Clock(Hours, Minutes + minutesToAdd);
+    }
 
-    public Clock Subtract(int minutesToSubtract) => Add(-minutesToSubtract);
+    public Clock Subtract(int minutesToSubtract)
+    {
+        return new Clock(Hours, Minutes - minutesToSubtract);
+    }
 
-    public override string ToString() => $"{Hours:00}:{Minutes:00}";
+    public override string ToString()
+    {
+        return $"{Hours:00}:{Minutes:00}";
+    }
+
+    public bool Equals(Clock other)
+    {
+        return other.Hours == Hours && other.Minutes == Minutes;
+    }
 }
