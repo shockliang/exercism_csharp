@@ -11,126 +11,126 @@ public class ClockTest
         Assert.Equal("08:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Past_the_hour()
     {
         var sut = new Clock(11, 9);
         Assert.Equal("11:09", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Midnight_is_zero_hours()
     {
         var sut = new Clock(24, 0);
         Assert.Equal("00:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Hour_rolls_over()
     {
         var sut = new Clock(25, 0);
         Assert.Equal("01:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Hour_rolls_over_continuously()
     {
         var sut = new Clock(100, 0);
         Assert.Equal("04:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Sixty_minutes_is_next_hour()
     {
         var sut = new Clock(1, 60);
         Assert.Equal("02:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Minutes_roll_over()
     {
         var sut = new Clock(0, 160);
         Assert.Equal("02:40", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Minutes_roll_over_continuously()
     {
         var sut = new Clock(0, 1723);
         Assert.Equal("04:43", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Hour_and_minutes_roll_over()
     {
         var sut = new Clock(25, 160);
         Assert.Equal("03:40", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Hour_and_minutes_roll_over_continuously()
     {
         var sut = new Clock(201, 3001);
         Assert.Equal("11:01", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Hour_and_minutes_roll_over_to_exactly_midnight()
     {
         var sut = new Clock(72, 8640);
         Assert.Equal("00:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_hour()
     {
         var sut = new Clock(-1, 15);
         Assert.Equal("23:15", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_hour_rolls_over()
     {
         var sut = new Clock(-25, 0);
         Assert.Equal("23:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_hour_rolls_over_continuously()
     {
         var sut = new Clock(-91, 0);
         Assert.Equal("05:00", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_minutes()
     {
         var sut = new Clock(1, -40);
         Assert.Equal("00:20", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_minutes_roll_over()
     {
         var sut = new Clock(1, -160);
         Assert.Equal("22:20", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_minutes_roll_over_continuously()
     {
         var sut = new Clock(1, -4820);
         Assert.Equal("16:40", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_hour_and_minutes_both_roll_over()
     {
         var sut = new Clock(-25, -160);
         Assert.Equal("20:20", sut.ToString());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Negative_hour_and_minutes_both_roll_over_continuously()
     {
         var sut = new Clock(-121, -5810);
