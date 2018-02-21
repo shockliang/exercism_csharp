@@ -1,6 +1,6 @@
 using System;
 
-public class Clock
+public class Clock : IEquatable<Clock>
 {
     public Clock(int hours, int minutes)
     {
@@ -17,6 +17,11 @@ public class Clock
         Hours = HoursParser(Hours, Minutes + minutesToAdd);
         Minutes = MinutesParser(Minutes + minutesToAdd);
         return this;
+    }
+
+    public bool Equals(Clock other)
+    {
+        return this.ToString().Equals(other.ToString());
     }
 
     public Clock Subtract(int minutesToSubtract)
