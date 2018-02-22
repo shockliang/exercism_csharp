@@ -3,34 +3,30 @@ using System.Collections.Generic;
 
 public class Allergies
 {
-    private IDictionary<string, int> allergyItem = new Dictionary<string, int>()
-    {
-        ["eggs"] = 1,
-        ["peanuts"] = 2,
-        ["shellfish"] = 4,
-        ["strawberries"] = 8,
-        ["tomatoes"] = 16,
-        ["chocolate"] = 32,
-        ["pollen"] = 64,
-        ["cats"] = 128
-    };
-
-    private List<string> allergyItems = new List<string>();
+    int map = 0xFF, results;
+    string[] allergyMap = new string[] {"eggs", "peanuts", "shellfish", "strawberries",
+        "tomatoes", "chocolate", "pollen", "cats"};
+    List<string> allergyItems;
 
     public Allergies(int mask)
     {
-        foreach (var item in allergyItem)
+        results = mask & map;
+        allergyItems = new List<string>();
+
+        for (int i = 0; i < 8; i++)
         {
-            if ((item.Value & mask) == item.Value)
+            if ((results & 0x01) != 0)
             {
-                allergyItems.Add(item.Key);
+                allergyItems.Add(allergyMap[i]);
             }
+
+            results >>= 1;
         }
     }
 
     public bool IsAllergicTo(string allergy)
     {
-        return allergyItems.IndexOf(allergy) != -1;
+        return allergyItems.Contains(allergy);
     }
 
     public IList<string> List()
