@@ -8,7 +8,6 @@ public class DifferenceOfSquaresGauss
 {
     public static int CalculateSquareOfSum(int max)
     {
-        var result = Math.Pow((1 + max) * max / 2, 2);
         return Convert.ToInt32(Math.Pow((1 + max) * max / 2, 2));
     }
 

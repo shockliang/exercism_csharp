@@ -8,13 +8,13 @@ Intel Core i7-4770HQ CPU 2.20GHz (Haswell), 1 CPU, 8 logical cores and 4 physica
 
 
 ```
-|                           Method |   N |           Mean |         Error |        StdDev |
-|--------------------------------- |---- |---------------:|--------------:|--------------:|
-|   **CalculateSquareOfSum_UsingLinq** |  **10** |     **729.989 ns** |    **14.4367 ns** |    **21.1612 ns** |
-|  CalculateSquareOfSum_UsingGauss |  10 |     296.606 ns |     5.8243 ns |     5.7202 ns |
-|  CalculateSumOfSquares_UsingLinq |  10 |     791.216 ns |    12.7662 ns |    11.3169 ns |
-| CalculateSumOfSquares_UsingGauss |  10 |       4.510 ns |     0.1276 ns |     0.1949 ns |
-|   **CalculateSquareOfSum_UsingLinq** | **303** | **312,265.193 ns** | **6,208.5228 ns** | **7,390.8048 ns** |
-|  CalculateSquareOfSum_UsingGauss | 303 |  10,913.548 ns |   209.1186 ns |   214.7493 ns |
-|  CalculateSumOfSquares_UsingLinq | 303 | 343,212.731 ns | 6,800.5932 ns | 9,533.4819 ns |
-| CalculateSumOfSquares_UsingGauss | 303 |     114.084 ns |     1.9650 ns |     1.8381 ns |
+|                           Method |   N |           Mean |         Error |         StdDev |
+|--------------------------------- |---- |---------------:|--------------:|---------------:|
+|   **CalculateSquareOfSum_UsingLinq** |  **10** |     **720.066 ns** |    **14.0213 ns** |     **23.0374 ns** |
+|  CalculateSquareOfSum_UsingGauss |  10 |     294.505 ns |     5.8648 ns |      9.7988 ns |
+|  CalculateSumOfSquares_UsingLinq |  10 |     809.200 ns |    15.9506 ns |     16.3801 ns |
+| CalculateSumOfSquares_UsingGauss |  10 |       4.600 ns |     0.1277 ns |      0.1195 ns |
+|   **CalculateSquareOfSum_UsingLinq** | **303** | **308,316.095 ns** | **6,089.4568 ns** |  **9,833.3376 ns** |
+|  CalculateSquareOfSum_UsingGauss | 303 |  10,863.038 ns |   214.4793 ns |    314.3810 ns |
+|  CalculateSumOfSquares_UsingLinq | 303 | 342,967.425 ns | 6,695.1393 ns | 11,000.3058 ns |
+| CalculateSumOfSquares_UsingGauss | 303 |     117.067 ns |     2.3625 ns |      3.3119 ns |
