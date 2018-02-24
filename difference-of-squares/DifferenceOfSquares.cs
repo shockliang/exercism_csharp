@@ -9,8 +9,3 @@ public class DifferenceOfSquares
 
     public static int CalculateDifferenceOfSquares(int max) => CalculateSquareOfSum(max) - CalculateSumOfSquares(max);
 }
-
-public static class ExtendIntSquare
-{
-    public static int Square(this int i) => i * i;
-}
