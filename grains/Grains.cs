@@ -5,10 +5,7 @@ public static class Grains
 {
     public static ulong Square(int n)
     {
-        if (n < 1 || n > 64)
-            throw new ArgumentOutOfRangeException();
-
-        return (ulong)1 << (n - 1);
+        return (n > 0 && n < 65) ? (ulong)1 << (n - 1) : throw new ArgumentOutOfRangeException();
     }
 
     public static ulong Total()
