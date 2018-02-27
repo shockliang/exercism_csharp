@@ -19,7 +19,7 @@ public class EtlTest
         Assert.Equal(expected, Etl.Transform(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Single_score_with_multiple_letters()
     {
         var input = new Dictionary<int, IList<string>>
@@ -37,7 +37,7 @@ public class EtlTest
         Assert.Equal(expected, Etl.Transform(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Multiple_scores_with_multiple_letters()
     {
         var input = new Dictionary<int, IList<string>>
@@ -55,7 +55,7 @@ public class EtlTest
         Assert.Equal(expected, Etl.Transform(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Multiple_scores_with_differing_numbers_of_letters()
     {
         var input = new Dictionary<int, IList<string>>
