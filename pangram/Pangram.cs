@@ -5,11 +5,13 @@ using System.Linq;
 
 public static class Pangram
 {
-    static readonly ImmutableHashSet<char> alphabet =
-      ImmutableHashSet<char>.Empty.Union("abcdefghijklmnopqrstuvwxyz");
-
     public static bool IsPangram(string input)
     {
-        return alphabet.Intersect(input.ToLower()).Count == alphabet.Count;
+        return input.Aggregate(new HashSet<char>(), (s, c) =>
+        {
+            char lc = char.ToLower(c);
+            if (lc >= 'a' && lc <= 'z') s.Add(lc);
+            return s;
+        }).Count == 26;
     }
 }
