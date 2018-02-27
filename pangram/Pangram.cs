@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 public static class Pangram
 {
+    static readonly ImmutableHashSet<char> alphabet =
+      ImmutableHashSet<char>.Empty.Union("abcdefghijklmnopqrstuvwxyz");
+
     public static bool IsPangram(string input)
     {
-        var ascillCodeOfLowerAlphabet = Enumerable.Range(97, 26);
-        var letters = input.ToLower().Where(x => char.IsLetter(x)).Select(x => Convert.ToInt32(x));
-        return ascillCodeOfLowerAlphabet.Except(letters).Count() == 0;
+        return alphabet.Intersect(input.ToLower()).Count == alphabet.Count;
     }
 }
