@@ -13,23 +13,16 @@ public class SaddlePoints
 
     public IEnumerable<Tuple<int, int>> Calculate()
     {
-        var saddlePoints = new List<Tuple<int, int>>();
+        int l = values.GetLength(0);
 
-        for (int i = 0; i < values.GetLength(0); i++)
-        {
-            for (int j = 0; j < values.GetLength(1); j++)
-            {
-                var currentPoint = values[i, j];
-                var row = Enumerable.Range(0, values.GetLength(0)).Select(x => values[i, x]);
-                var col = Enumerable.Range(0, values.GetLength(1)).Select(x => values[x, j]);
-                var isMaxOfRow = currentPoint == row.Max();
-                var isMinOfCol = currentPoint == col.Min();
+        var rows = Enumerable.Range(0, l).Select(i => Enumerable.Range(0, l).Select(j => values[i, j]).ToArray()).ToArray();
+        var columns = Enumerable.Range(0, l).Select(i => Enumerable.Range(0, l).Select(j => values[j, i]).ToArray()).ToArray();
 
-                if (isMaxOfRow && isMinOfCol)
-                    saddlePoints.Add(Tuple.Create(i, j));
+        var maxInRows = Enumerable.Range(0, l).Select(i => rows[i].Max()).ToArray();
+        var minInColumns = Enumerable.Range(0, l).Select(i => columns[i].Min()).ToArray();
 
-            }
-        }
-        return saddlePoints;
+        bool isSaddelPoint(int i, int j) => values[i, j] == maxInRows[i] && values[i, j] == minInColumns[j];
+
+        return Enumerable.Range(0, l).SelectMany(i => Enumerable.Range(0, l).Where(j => isSaddelPoint(i, j)).Select(j => Tuple.Create(i, j)));
     }
 }
