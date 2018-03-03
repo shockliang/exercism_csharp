@@ -19,8 +19,7 @@ public static class ScrabbleScore
     {
         return input
                 .ToUpper()
-                .Select(letter => scoreTable.Where(x => x.Key.Contains(letter)).Select(x => x.Value).FirstOrDefault())
-                .Sum();
+                .Sum(letter => scoreTable.FirstOrDefault(x => x.Key.Contains(letter)).Value);
     }
 
 
