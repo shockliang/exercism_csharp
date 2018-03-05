@@ -7,34 +7,36 @@ public static class ProteinTranslation
 {
     public static string[] Translate(string codons)
     {
-        return Enumerable.Range(0, codons.Length / 3)
-            .Select(i => codons.Substring(i * 3, 3))
-            .ProteinMap()
-            .ToArray();
-    }
+        if (!Regex.IsMatch(codons, @"^[AUCG]+$"))
+            throw new Exception();
 
-    private static IEnumerable<string> ProteinMap(this IEnumerable<string> codons)
-    {
-        foreach (var codon in codons)
+        var codonToProtein = new Dictionary<string[], string>
         {
-            if ("AUG" == codon)
-                yield return "Methionine";
-            else if (Regex.IsMatch(codon, "UU[CU]"))
-                yield return "Phenylalanine";
-            else if (Regex.IsMatch(codon, "UU[AG]"))
-                yield return "Leucine";
-            else if (Regex.IsMatch(codon, "UC[UCAG]"))
-                yield return "Serine";
-            else if (Regex.IsMatch(codon, "UA[UC]"))
-                yield return "Tyrosine";
-            else if (Regex.IsMatch(codon, "UG[UC]"))
-                yield return "Cysteine";
-            else if ("UGG" == codon)
-                yield return "Tryptophan";
-            else if (Regex.IsMatch(codon, "UA[AG]|UGA"))
-                yield break;
-            else
-                throw new Exception();
+            [new string[] { "AUG" }] = "Methionine",
+            [new string[] { "UUU", "UUC" }] = "Phenylalanine",
+            [new string[] { "UUA", "UUG" }] = "Leucine",
+            [new string[] { "UCU", "UCC", "UCA", "UCG" }] = "Serine",
+            [new string[] { "UAU", "UAC" }] = "Tyrosine",
+            [new string[] { "UGU", "UGC" }] = "Cysteine",
+            [new string[] { "UGG" }] = "Tryptophan",
+            [new string[] { "UAA", "UAG", "UGA" }] = "STOP"
+        };
+
+
+        var protein = new List<string>();
+        for (int i = 0; i < codons.Length; i += 3)
+        {
+            var singleCodon = codonToProtein
+                                .Where(a => a.Key.Contains(codons.Substring(i, 3)))
+                                .Select(a => a.Value).FirstOrDefault();
+
+            if (singleCodon.Equals("STOP"))
+            {
+                break;
+            }
+            protein.Add(singleCodon);
         }
+
+        return protein.ToArray();
     }
 }
