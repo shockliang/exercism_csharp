@@ -1,45 +1,40 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public static class ProteinTranslation
 {
-    private static readonly IDictionary<string, string> translation = new Dictionary<string, string>()
+    public static string[] Translate(string codons)
     {
-        ["AUG"] = "Methionine",
-        ["UUU"] = "Phenylalanine",
-        ["UUC"] = "Phenylalanine",
-        ["UUA"] = "Leucine",
-        ["UUG"] = "Leucine",
-        ["UCU"] = "Serine",
-        ["UCC"] = "Serine",
-        ["UCA"] = "Serine",
-        ["UCG"] = "Serine",
-        ["UAU"] = "Tyrosine",
-        ["UAC"] = "Tyrosine",
-        ["UGU"] = "Cysteine",
-        ["UGC"] = "Cysteine",
-        ["UGG"] = "Tryptophan",
-        ["UAA"] = "STOP",
-        ["UAG"] = "STOP",
-        ["UGA"] = "STOP",
-    };
-    public static string[] Translate(string codon)
-    {
-        codon = codon.ToUpper();
-        var codons = new List<string>();
+        return Enumerable.Range(0, codons.Length / 3)
+            .Select(i => codons.Substring(i * 3, 3))
+            .ProteinMap()
+            .ToArray();
+    }
 
-        for (int i = 0; i < codon.Length; i += 3)
+    private static IEnumerable<string> ProteinMap(this IEnumerable<string> codons)
+    {
+        foreach (var codon in codons)
         {
-            var singleCodon = new string(codon.Skip(i).Take(3).ToArray());
-            if (translation.ContainsKey(singleCodon))
-            {
-                if(translation[singleCodon].Equals("STOP"))
-                    break;
-                else
-                    codons.Add(translation[singleCodon]);
-            }
+            if ("AUG" == codon)
+                yield return "Methionine";
+            else if (Regex.IsMatch(codon, "UU[CU]"))
+                yield return "Phenylalanine";
+            else if (Regex.IsMatch(codon, "UU[AG]"))
+                yield return "Leucine";
+            else if (Regex.IsMatch(codon, "UC[UCAG]"))
+                yield return "Serine";
+            else if (Regex.IsMatch(codon, "UA[UC]"))
+                yield return "Tyrosine";
+            else if (Regex.IsMatch(codon, "UG[UC]"))
+                yield return "Cysteine";
+            else if ("UGG" == codon)
+                yield return "Tryptophan";
+            else if (Regex.IsMatch(codon, "UA[AG]|UGA"))
+                yield break;
+            else
+                throw new Exception();
         }
-        return codons.Count > 0 ? codons.ToArray() : throw new Exception();
     }
 }
