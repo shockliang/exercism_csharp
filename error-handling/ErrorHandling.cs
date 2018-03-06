@@ -9,8 +9,14 @@ public static class ErrorHandling
 
     public static int? HandleErrorByReturningNullableType(string input)
     {
-        int reuslt;
-        return int.TryParse(input, out reuslt) ? int.Parse(input) : new Nullable<int>();
+        try
+        {
+            return int.Parse(input);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     public static bool HandleErrorWithOutParam(string input, out int result)
@@ -20,14 +26,9 @@ public static class ErrorHandling
 
     public static void DisposableResourcesAreDisposedWhenExceptionIsThrown(IDisposable disposableObject)
     {
-        try
+        using (disposableObject)
         {
             throw new Exception();
-        }
-        catch (System.Exception)
-        {
-            disposableObject.Dispose();
-            throw;
         }
     }
 }
