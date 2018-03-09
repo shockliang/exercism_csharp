@@ -6,13 +6,19 @@ public static class Sieve
 {
     public static int[] Primes(int limit)
     {
-        return limit < 2 ? throw new ArgumentOutOfRangeException() :
-                Enumerable.Range(2, limit - 1)
-                .Aggregate(new List<int>(Enumerable.Range(2, limit - 1)), (primes, number) =>
+        if(limit < 2) throw new ArgumentOutOfRangeException();
+        
+        var primes = new HashSet<int>(Enumerable.Range(2, limit - 1));
+        for (var i = 2; i <= Math.Sqrt(limit); i++)
+        {
+            if (primes.Contains(i))
+            {
+                for (var j = i * i; j <= limit; j += i)
                 {
-                    primes.RemoveAll(x => x % number == 0 && x != number);
-                    return primes;
-                })
-                .ToArray();
+                    primes.Remove(j);
+                }
+            }
+        }
+        return primes.ToArray();
     }
 }
