@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 public enum Direction
 {
@@ -6,6 +8,11 @@ public enum Direction
     East,
     South,
     West
+}
+public enum Turn
+{
+    Right,
+    Left
 }
 
 public struct Coordinate
@@ -22,43 +29,73 @@ public struct Coordinate
 
 public class RobotSimulator
 {
+    private IDictionary<char, Action> instructionReact;
+
     public RobotSimulator(Direction direction, Coordinate coordinate)
     {
-    }
-
-    public Direction Direction
-    {
-        get
+        this.Direction = direction;
+        this.Coordinate = coordinate;
+        instructionReact = new Dictionary<char, Action>()
         {
-            throw new NotImplementedException("You need to implement this function.");
-        }
+            ['L'] = TurnLeft,
+            ['R'] = TurnRight,
+            ['A'] = Advance
+        };
     }
 
-    public Coordinate Coordinate
-    {
-        get
-        {
-            throw new NotImplementedException("You need to implement this function.");
-        }
-    }
+    public Direction Direction { get; private set; }
 
-    public void TurnRight()
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public Coordinate Coordinate { get; private set; }
 
-    public void TurnLeft()
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public void TurnRight() => TurnsDirection(Turn.Right);
+
+    public void TurnLeft() => TurnsDirection(Turn.Left);
 
     public void Advance()
     {
-        throw new NotImplementedException("You need to implement this function.");
+        switch (Direction)
+        {
+            case Direction.North:
+                Coordinate = new Coordinate(Coordinate.X, Coordinate.Y + 1);
+                break;
+            case Direction.East:
+                Coordinate = new Coordinate(Coordinate.X + 1, Coordinate.Y);
+                break;
+            case Direction.South:
+                Coordinate = new Coordinate(Coordinate.X, Coordinate.Y - 1);
+                break;
+            case Direction.West:
+                Coordinate = new Coordinate(Coordinate.X - 1, Coordinate.Y);
+                break;
+        }
     }
 
     public void Simulate(string instructions)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        instructions
+            .ToUpper()
+            .ToCharArray()
+            .Select(actionChar => instructionReact[actionChar])
+            .ToList()
+            .ForEach(action => action.Invoke());
+    }
+
+    private void TurnsDirection(Turn turn)
+    {
+        switch (Direction)
+        {
+            case Direction.North:
+                Direction = turn == Turn.Right ? Direction.East : Direction.West;
+                break;
+            case Direction.East:
+                Direction = turn == Turn.Right ? Direction.South : Direction.North;
+                break;
+            case Direction.South:
+                Direction = turn == Turn.Right ? Direction.West : Direction.East;
+                break;
+            case Direction.West:
+                Direction = turn == Turn.Right ? Direction.North : Direction.South;
+                break;
+        }
     }
 }
