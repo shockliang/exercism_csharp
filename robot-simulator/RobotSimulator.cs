@@ -74,7 +74,7 @@ public class RobotSimulator
     {
         instructions
             .ToUpper()
-            .ToCharArray()
+            .Where(c => instructionReact.ContainsKey(c))
             .Select(actionChar => instructionReact[actionChar])
             .ToList()
             .ForEach(action => action.Invoke());
