@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class Isogram
 {
     public static bool IsIsogram(string word)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        word = word.ToLower();
+        return word
+                .Where(x => !x.Equals(' ') && !x.Equals('-'))
+                .Where(c => word.Count(x => x == c) > 1)
+                .Count() == 0;
     }
 }
