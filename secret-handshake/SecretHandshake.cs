@@ -1,29 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 public static class SecretHandshake
 {
-    private static IDictionary<int, string> decodeMapping = new Dictionary<int, string>()
-    {
-        [0b01] = "wink",
-        [0b10] = "double blink",
-        [0b100] = "close your eyes",
-        [0b1000] = "jump",
-    };
     public static string[] Commands(int commandValue)
     {
-        var decodes = new List<string>();
-
-        foreach (var item in decodeMapping)
+        var funcs = new List<Func<IEnumerable<string>, IEnumerable<string>>>
         {
-            if ((commandValue | item.Key) == commandValue)
-                decodes.Add(item.Value);
-        }
+            l => l.Append("wink"),
+            l => l.Append("double blink"),
+            l => l.Append("close your eyes"),
+            l => l.Append("jump"),
+            l => l.Reverse()
+        };
 
-        if ((commandValue | 0b10000) == commandValue)
-            decodes.Reverse();
-
-        return decodes.ToArray();
+        return new BitArray(new[] { commandValue }).Cast<bool>()
+                    .Zip(funcs, (b, f) => new { bit = b, func = f })
+                    .Aggregate(Enumerable.Empty<string>(), (l, p) => p.bit ? p.func(l) : l)
+                    .ToArray();
     }
 }
