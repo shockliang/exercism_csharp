@@ -2,26 +2,35 @@
 
 public class BankAccount
 {
+    private float currentBalance;
+    private bool isClose = false;
+    private object lockObject = new object();
+
     public void Open()
     {
-        throw new NotImplementedException("You need to implement this function.");
+        lock (lockObject)
+        {
+            currentBalance = 0.0f;
+            isClose = false;
+        }
+
     }
 
-    public void Close()
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public void Close() => isClose = true;
 
     public float Balance
     {
         get
         {
-            throw new NotImplementedException("You need to implement this property.");
+            return isClose ? throw new InvalidOperationException() : currentBalance;
         }
     }
 
     public void UpdateBalance(float change)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        lock (lockObject)
+        {
+            currentBalance += change;
+        }
     }
 }
