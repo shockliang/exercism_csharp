@@ -1,34 +1,25 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 public class Matrix
 {
+    private List<IEnumerable<int>> matrix;
     public Matrix(string input)
     {
-    }
-
-    public int Rows
-    {
-        get
+        matrix = input.Split('\n').Aggregate(new List<IEnumerable<int>>(), (list, row) =>
         {
-            throw new NotImplementedException("You need to implement this function.");
-        }
+            var rowElements = row.Split(' ').Select(x => Convert.ToInt32(x));
+            list.Add(rowElements);
+            return list;
+        });
     }
 
-    public int Cols
-    {
-        get
-        {
-            throw new NotImplementedException("You need to implement this function.");
-        }
-    }
+    public int Rows { get => matrix.Count; }
 
-    public int[] Row(int row) 
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public int Cols { get => matrix.Max(x => x.Count()); }
 
-    public int[] Col(int col)
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public int[] Row(int row) => matrix[row].ToArray();
+
+    public int[] Col(int col) => matrix.Select(x => x.ElementAtOrDefault(col)).ToArray();
 }
