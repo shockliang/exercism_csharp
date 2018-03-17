@@ -1,29 +1,19 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 
 public static class RotationalCipher
 {
     public static string Rotate(string text, int shiftKey)
     {
-        var result = text
-            .Select((c) =>
+        return String.Concat(text.Select(c =>
+        {
+            if (Char.IsLetter(c))
             {
-                if (char.IsLetter(c))
-                {
-                    var converted = Convert.ToChar((c + (shiftKey % 26)));
-                    if ((char.IsLower(c) && converted > 'z') ||
-                        (char.IsUpper(c) && converted > 'Z'))
-                        return Convert.ToChar(converted - 26);
-                    else
-                        return converted;
-                }
-                else
-                {
-                    return c;
-                }
-            })
-            .ToArray();
-        return new string(result);
+                var offset = Char.IsUpper(c) ? 'A' : 'a';
+                var o = (char)(c + shiftKey % 26);
+                return (o - offset) < 26 ? o : (char)(o - 26);
+            }
+            return c;
+        }));
     }
 }
