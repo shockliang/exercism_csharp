@@ -11,7 +11,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(1, 1));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_two_the_malt_that_lay()
     {
         var expected = 
@@ -20,7 +20,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(2, 2));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_three_the_rat_that_ate()
     {
         var expected = 
@@ -30,7 +30,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(3, 3));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_four_the_cat_that_killed()
     {
         var expected = 
@@ -41,7 +41,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(4, 4));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_five_the_dog_that_worried()
     {
         var expected = 
@@ -53,7 +53,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(5, 5));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_six_the_cow_with_the_crumpled_horn()
     {
         var expected = 
@@ -66,7 +66,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(6, 6));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_seven_the_maiden_all_forlorn()
     {
         var expected = 
@@ -80,7 +80,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(7, 7));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_eight_the_man_all_tattered_and_torn()
     {
         var expected = 
@@ -95,7 +95,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(8, 8));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_nine_the_priest_all_shaven_and_shorn()
     {
         var expected = 
@@ -111,7 +111,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(9, 9));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_10_the_rooster_that_crowed_in_the_morn()
     {
         var expected = 
@@ -128,7 +128,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(10, 10));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_11_the_farmer_sowing_his_corn()
     {
         var expected = 
@@ -146,7 +146,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(11, 11));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Verse_12_the_horse_and_the_hound_and_the_horn()
     {
         var expected = 
@@ -165,7 +165,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(12, 12));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Multiple_verses()
     {
         var expected = 
@@ -206,7 +206,7 @@ public class HouseTest
         Assert.Equal(expected, House.Recite(4, 8));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Full_rhyme()
     {
         var expected = 
