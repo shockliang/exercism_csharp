@@ -26,7 +26,6 @@ public class Triplet
 
     public static IEnumerable<Triplet> Where(int maxFactor, int minFactor = 1, int sum = 0)
     {
-        var triplets = new List<Triplet>();
         for (int i = minFactor; i <= maxFactor; i++)
         {
             for (int j = i; j <= maxFactor; j++)
@@ -35,15 +34,14 @@ public class Triplet
                 {
                     if (i * i + j * j == k * k)
                     {
-                        var triplet = new Triplet(i, j, k);
+                        var triplet = new Triplet(i, k, j);
+                        if (sum == 0)
+                            yield return triplet;
                         if (triplet.Sum() == sum)
-                            triplets.Add(triplet);
-                        else if (sum == 0)
-                            triplets.Add(triplet);
+                            yield return triplet;
                     }
                 }
             }
         }
-        return triplets;
     }
 }
