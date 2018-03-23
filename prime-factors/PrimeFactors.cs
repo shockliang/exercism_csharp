@@ -1,24 +1,15 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class PrimeFactors
 {
-    public static int[] Factors(long number) => GetFactors(number, 2).ToArray();
+    public static int[] Factors(long number) => EnumerateFactors(number).ToArray();
 
-    private static IEnumerable<int> GetFactors(long number, long step)
+    private static IEnumerable<int> EnumerateFactors(long number)
     {
-        while (number != 1)
-        {
-            if (number % step == 0)
-            {
-                number /= step;
-                yield return Convert.ToInt32(step);
-            }
-            else
-            {
-                step++;
-            }
-        }
+        for (var factor = 2; number != 1; factor += factor == 2 ? 1 : 2)
+            for (; number % factor == 0; number /= factor)
+                yield return factor;
     }
 }
