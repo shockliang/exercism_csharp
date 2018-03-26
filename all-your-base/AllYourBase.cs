@@ -11,28 +11,23 @@ public static class AllYourBase
             throw new ArgumentException();
         }
 
-        var outputReuslt = inputDigits.Length == 0 || (inputDigits.Where(x => x == 0).Count() == inputDigits.Length)
-                            ? new List<int>(new int[] { 0 })
-                            : new List<int>();
+        var outputReuslt = new List<int>();
         var quotient = ToBase10(inputBase, inputDigits);
+        
         while (quotient > 0)
         {
-            var remainder = 0;
-            quotient = Math.DivRem(quotient, outputBase, out remainder);
-            outputReuslt.Add(remainder);
+            outputReuslt.Add(quotient % outputBase);
+            quotient /= outputBase;
         }
 
-        return outputReuslt.ToArray().Reverse().ToArray();
+        return outputReuslt.ToArray().Reverse().DefaultIfEmpty(0).ToArray();
     }
 
     private static int ToBase10(int inputBase, int[] inputDigits)
     {
-        int base10Value = 0;
-        var inputDigitsLBS = inputDigits.Reverse().ToArray();
-        for (int i = 0; i < inputDigitsLBS.Count(); i++)
-        {
-            base10Value += ((int)Math.Pow(inputBase, i) * inputDigitsLBS[i]);
-        }
-        return base10Value;
+        return inputDigits
+                .Reverse()
+                .Select((digit, idx) => (int)Math.Pow(inputBase, idx) * digit)
+                .Sum();
     }
 }
