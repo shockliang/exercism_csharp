@@ -12,7 +12,7 @@ public class FlattenArrayTest
         Assert.Equal(expected, FlattenArray.Flatten(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Flattens_array_with_just_integers_present()
     {
         var input = new object[] {
@@ -31,7 +31,7 @@ public class FlattenArrayTest
         Assert.Equal(expected, FlattenArray.Flatten(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Number_5_level_nesting()
     {
         var input = new object[] {
@@ -59,7 +59,7 @@ public class FlattenArrayTest
         Assert.Equal(expected, FlattenArray.Flatten(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Number_6_level_nesting()
     {
         var input = new object[] {
@@ -88,7 +88,7 @@ public class FlattenArrayTest
         Assert.Equal(expected, FlattenArray.Flatten(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Number_6_level_nest_list_with_null_values()
     {
         var input = new object[] {
@@ -118,7 +118,7 @@ public class FlattenArrayTest
         Assert.Equal(expected, FlattenArray.Flatten(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void All_values_in_nested_list_are_null()
     {
         var input = new object[] {
