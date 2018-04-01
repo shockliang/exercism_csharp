@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 
 public class BinarySearch
 {
     private readonly int[] input;
+
     public BinarySearch(int[] input)
     {
         this.input = input;
@@ -12,28 +11,22 @@ public class BinarySearch
 
     public int Find(int value)
     {
-        var count = 0;
-        var mid = input.Length % 2 == 0 ? (input.Length / 2) + 1 : input.Length / 2;
-        var previous = input.Length;
-        while (true && input.Length > 0)
-        {
-            var midElement = input[mid];
-            if (midElement == value)
-            {
-                return mid;
-            }
-            else if (midElement > value)
-            {
-                previous = mid;
-                mid /= 2;
-            }
-            else
-            {
-                mid = ((previous - mid) / 2) + mid;
-            }
+        return Find(value, 0, input.Length);
+    }
 
-            if (count++ == input.Length) { break; }
+    private int Find(int value, int startIndex, int endIndex)
+    {
+        if (endIndex <= startIndex) return -1;
+
+        var mid = startIndex + ((endIndex - startIndex) / 2);
+        switch (value.CompareTo(input[mid]))
+        {
+            case int x when x > 0:
+                return Find(value, mid + 1, endIndex);
+            case int x when x < 0:
+                return Find(value, startIndex, mid);
+            default:
+                return mid;
         }
-        return -1;
     }
 }
