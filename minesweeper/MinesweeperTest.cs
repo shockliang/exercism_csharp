@@ -18,7 +18,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void No_columns()
     {
         var input = new string[] 
@@ -32,7 +32,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void No_mines()
     {
         var input = new string[] 
@@ -52,7 +52,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Board_with_only_mines()
     {
         var input = new string[] 
@@ -72,7 +72,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Mine_surrounded_by_spaces()
     {
         var input = new string[] 
@@ -92,7 +92,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Space_surrounded_by_mines()
     {
         var input = new string[] 
@@ -112,7 +112,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Horizontal_line()
     {
         var input = new string[] 
@@ -126,7 +126,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Horizontal_line_mines_at_edges()
     {
         var input = new string[] 
@@ -140,7 +140,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Vertical_line()
     {
         var input = new string[] 
@@ -164,7 +164,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Vertical_line_mines_at_edges()
     {
         var input = new string[] 
@@ -188,7 +188,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Cross()
     {
         var input = new string[] 
@@ -212,7 +212,7 @@ public class MinesweeperTest
         Assert.Equal(expected, Minesweeper.Annotate(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Large_board()
     {
         var input = new string[] 
