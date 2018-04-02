@@ -5,17 +5,19 @@ using System.Numerics;
 
 public static class Minesweeper
 {
-    private static Func<int, int, (int x, int y)>[] adjacent = new Func<int, int, (int x, int y)>[]
+    private static Func<int, int, int, int, char[][], bool> condition = IsInTheRangeAndMineCell;
+
+    private static List<Func<int, int, char[][], bool>> adjacent = new Func<int, int, char[][], bool>[]
     {
-        (x, y) => (x - 1, y - 1), // LT
-        (x, y) => (x, y - 1),     // Top
-        (x, y) => (x + 1, y - 1), // RT
-        (x, y) => (x - 1, y),     // Left
-        (x, y) => (x + 1, y),     // Right
-        (x, y) => (x - 1, y + 1), // LB
-        (x, y) => (x, y + 1),     // Bottom
-        (x, y) => (x + 1, y + 1)  // RB
-    };
+        (x, y, map) => condition(x - 1, y - 1, map[y].Length, map.Length, map), // LT
+        (x, y, map) => condition(x, y - 1, map[y].Length, map.Length, map),     // Top
+        (x, y, map) => condition(x + 1, y - 1, map[y].Length, map.Length, map), // RT
+        (x, y, map) => condition(x - 1, y, map[y].Length, map.Length, map),     // Left
+        (x, y, map) => condition(x + 1, y, map[y].Length, map.Length, map),     // Right
+        (x, y, map) => condition(x - 1, y + 1, map[y].Length, map.Length, map), // LB
+        (x, y, map) => condition(x, y + 1, map[y].Length, map.Length, map),     // Bottom
+        (x, y, map) => condition(x + 1, y + 1, map[y].Length, map.Length, map)  // RB
+    }.ToList();
 
     public static string[] Annotate(string[] input)
     {
@@ -27,11 +29,9 @@ public static class Minesweeper
             {
                 if (map[y][x].Equals('*')) continue;
 
-                foreach (var adjFunc in adjacent)
+                foreach (var checkFunc in adjacent)
                 {
-                    var result = adjFunc.Invoke(x, y);
-                    if (IsInTheRange(result.x, result.y, map[y].Length, map.Length) &&
-                        map[result.y][result.x].Equals('*'))
+                    if (checkFunc.Invoke(x, y, map))
                     {
                         map[y][x] = map[y][x] != ' '
                             ? (char)(map[y][x] + 1)
@@ -44,8 +44,11 @@ public static class Minesweeper
         return map.Select(ary => string.Concat(ary)).ToArray();
     }
 
-    private static bool IsInTheRange(int x, int y, int boundX, int boundY)
-    {
-        return x < boundX && x >= 0 && y >= 0 && y < boundY;
-    }
+    private static bool IsInTheRangeAndMineCell(int x, int y, int boundX, int boundY, char[][] map)
+        => x < boundX && x >= 0 && y >= 0 && y < boundY
+            ? IsMineCell(x, y, map)
+            : false;
+            
+    private static bool IsMineCell(int x, int y, char[][] map)
+        => map[y][x].Equals('*');
 }
