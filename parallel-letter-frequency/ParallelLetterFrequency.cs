@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading.Tasks;
 
 public static class ParallelLetterFrequency
@@ -12,20 +12,13 @@ public static class ParallelLetterFrequency
 
         Parallel.ForEach(texts, (text) =>
         {
-            lock (text)
+            foreach (char c in text)
             {
-                var letterGroup = text.ToLower().Where(char.IsLetter).GroupBy(c => c);
-                foreach (var item in letterGroup)
-                {
-                    if (letters.ContainsKey(item.Key))
-                        letters[item.Key] += item.Count();
-                    else
-                        letters.TryAdd(item.Key, item.Count());
-                }
+                if (char.IsLetter(c))
+                    letters.AddOrUpdate(char.ToLower(c), 1, (k, v) => v + 1);
             }
         });
 
-        return letters.ToDictionary(kvp => kvp.Key,
-                                    kvp => kvp.Value);
+        return letters.ToDictionary(x => x.Key, x => x.Value);
     }
 }
