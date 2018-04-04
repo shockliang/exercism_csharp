@@ -1,49 +1,43 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using static System.String;
+using System.Linq;
 
 public static class AtbashCipher
 {
-    private static IDictionary<char, char> mapping;
+    public static string Encode(string plainValue) 
+        => plainValue.Transform().BreakIntoGroups().Stringify();
 
-    static AtbashCipher()
+    public static string Decode(string encodedValue) 
+        => encodedValue.Transform().Stringify();
+
+    private static IEnumerable<char> Transform(this IEnumerable<char> source)
     {
-        mapping = new Dictionary<char, char>();
-        var az = Enumerable.Range('a', 26).ToArray();
-        for (int i = 0; i < az.Count(); i++)
+        foreach(char c in source)
         {
-            mapping.Add((char)az[i], (char)az[az.Count() - i - 1]);
+            if (char.IsDigit(c))
+            {
+                yield return c;
+            }
+            else if (char.IsLetter(c))
+            {
+                yield return (char)(('z' - char.ToLower(c)) + 'a');
+            }
         }
     }
 
-    public static string Encode(string plainValue)
+    private static IEnumerable<char> BreakIntoGroups(this IEnumerable<char> source)
     {
-        var filtered = plainValue
-            .ToLower()
-            .Where(char.IsLetterOrDigit)
-            .Select(c => mapping.ContainsKey(c) ? mapping[c] : c)
-            .ToList();
-
-        var fiveLetters = new List<string>();
-        for (int i = 0; i < filtered.Count(); i += 5)
+        int index = 0;
+        foreach (char letter in source)
         {
-            fiveLetters.Add(Concat(filtered.Skip(i).Take(5)));
+            if (index > 0 && index % 5 == 0)
+            {
+                yield return ' ';
+            }
+            yield return letter;
+            index++;
         }
-        return Join(' ', fiveLetters);
     }
 
-    public static string Decode(string encodedValue)
-    {
-        var result = new List<char>();
-        var filtered = encodedValue.Where(char.IsLetterOrDigit);
-
-        foreach (var letter in filtered)
-        {
-            result.Add(char.IsLetter(letter) 
-                ? mapping.FirstOrDefault(x => x.Value.Equals(letter)).Key 
-                : letter);
-        }
-        return Concat(result);
-    }
+    private static string Stringify(this IEnumerable<char> source) => new string(source.ToArray());
 }
