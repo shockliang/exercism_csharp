@@ -1,0 +1,7 @@
+
+Message [string]:"Access to the path '/var/folders/9h/1l7jdrnj7pl9smj6rn8yfyj00000gn/T/' is denied."
+
+
+Context [string]:"Brought Death into the World, and all our woe,\n"
+Context [string]:"Brought Death into the World, and all our woe,\n"
+Context [string]:"With loss of Eden, till one greater Man\n"
