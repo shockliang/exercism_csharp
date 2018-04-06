@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 public enum SublistType
 {
@@ -15,35 +15,26 @@ public static class Sublist
     public static SublistType Classify<T>(List<T> list1, List<T> list2)
         where T : IComparable
     {
-        if (list1.Count == list2.Count)
-        {
-            return AreEqual(list1, list2) ? SublistType.Equal : SublistType.Unequal;
-        }
+        if (list1.SequenceEqual(list2))
+            return SublistType.Equal;
 
-        if (list1.Count < list2.Count)
-        {
-            return IsSublist(list1, list2) ? SublistType.Sublist : SublistType.Unequal;
-        }
+        if (Contains(list1, list2))
+            return SublistType.Sublist;
 
-        return IsSublist(list2, list1) ? SublistType.Superlist : SublistType.Unequal;
+        if (Contains(list2, list1))
+            return SublistType.Superlist;
+
+        return SublistType.Unequal;
     }
 
-    private static bool AreEqual<T>(List<T> list1, List<T> list2)
-        where T : IComparable
+    private static bool Contains<T>(List<T> list1, List<T> list2)
     {
-        return !list1
-            .Where((item, idx) => item.CompareTo(list2[idx]) != 0)
-            .Any();
-    }
+        if (list1.Count() == 0)
+            return true;
+        if (list1.Count() > list2.Count())
+            return false;
 
-    private static bool IsSublist<T>(List<T> list1, List<T> list2)
-        where T : IComparable
-    {
-        if (list1.Count > list2.Count) { return false; }
-
-        if (list1.Count == 0) { return true; }
-
-        return Enumerable.Range(0, list2.Count - list1.Count + 1)
-            .Any(i => AreEqual(list1, list2.GetRange(i, list1.Count)));
+        return Enumerable.Range(0, list2.Count() - list1.Count() + 1)
+            .Any(i => list1.SequenceEqual(list2.Skip(i).Take(list1.Count())));
     }
 }
