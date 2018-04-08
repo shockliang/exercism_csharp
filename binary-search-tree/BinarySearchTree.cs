@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,48 +7,64 @@ public class BinarySearchTree : IEnumerable<int>
 {
     public BinarySearchTree(int value)
     {
+        this.Value = value;
     }
 
     public BinarySearchTree(IEnumerable<int> values)
     {
-    }
+        this.Value = values.FirstOrDefault();
 
-    public int Value
-    {
-        get
+        foreach (var item in values.Skip(1))
         {
-            throw new NotImplementedException("You need to implement this function.");
+            Add(item);
         }
     }
 
-    public BinarySearchTree Left
-    {
-        get
-        {
-            throw new NotImplementedException("You need to implement this function.");
-        }
-    }
+    public int Value { get; }
 
-    public BinarySearchTree Right
-    {
-        get
-        {
-            throw new NotImplementedException("You need to implement this function.");
-        }
-    }
+    public BinarySearchTree Left { get; private set; }
+
+    public BinarySearchTree Right { get; private set; }
 
     public BinarySearchTree Add(int value)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        var node = new BinarySearchTree(value);
+
+        if (value <= Value)
+        {
+            if (Left == null)
+                Left = node;
+            else
+                Left.Add(value);
+        }
+        else
+        {
+            if (Right == null)
+                Right = node;
+            else
+                Right.Add(value);
+        }
+
+        return this;
     }
 
     public IEnumerator<int> GetEnumerator()
     {
-        throw new NotImplementedException("You need to implement this function.");
+        foreach (var left in Left?.AsEnumerable() ?? Enumerable.Empty<int>())
+        {
+            yield return left;
+        }
+
+        yield return Value;
+
+        foreach (var right in Right?.AsEnumerable() ?? Enumerable.Empty<int>())
+        {
+            yield return right;
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new NotImplementedException("You need to implement this function.");
+        return GetEnumerator();
     }
 }
