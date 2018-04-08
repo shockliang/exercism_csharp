@@ -32,17 +32,13 @@ public class BinarySearchTree : IEnumerable<int>
 
         if (value <= Value)
         {
-            if (Left == null)
-                Left = node;
-            else
-                Left.Add(value);
+            Left?.Add(value);
+            Left = Left ?? new BinarySearchTree(value);
         }
         else
         {
-            if (Right == null)
-                Right = node;
-            else
-                Right.Add(value);
+            Right?.Add(value);
+            Right = Right ?? new BinarySearchTree(value);
         }
 
         return this;
