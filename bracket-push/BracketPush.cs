@@ -4,26 +4,26 @@ using System.Collections.Generic;
 
 public static class BracketPush
 {
+    private const string open = "[{(";
+    private const string close = "]})";
+
     public static bool IsPaired(string input)
     {
-        var filtered = input
-            .Where(c => c.Equals('(') || c.Equals(')') ||
-                        c.Equals('[') || c.Equals(']') ||
-                        c.Equals('{') || c.Equals('}'))
-            .ToArray();
+        var stack = new Stack<char>();
 
-        var brackets = string.Concat(filtered);
+        return input
+            .Where(c => "[]{}()".Contains(c))
+            .All(stack.Match) && !stack.Any();
+    }
 
-        while (brackets.Length > 0)
+    private static bool Match(this Stack<char> brackets, char c)
+    {
+        if (open.Contains(c))
         {
-            brackets = brackets.Replace("()", "").Replace("[]", "").Replace("{}", "");
-            
-            if (brackets.Length == filtered.Length || brackets.Length % 2 != 0)
-            {
-                return false;
-            }
+            brackets.Push(c);
+            return true;
         }
-        
-        return true;
+        if (!brackets.Any()) return false;
+        return open.IndexOf(brackets.Pop()) == close.IndexOf(c);
     }
 }
