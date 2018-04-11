@@ -2,82 +2,36 @@ using System;
 
 public class Deque<T>
 {
-    private Node<T> head;
-    private Node<T> current;
-
-    /// <summary>
-    /// insert value at back
-    /// </summary>
-    /// <param name="value"></param>
-    public void Push(T value)
+    private class Node
     {
-        var node = new Node<T>(value);
-        if (head == null) 
-        { 
-            head = node; 
-            current = head;
-        }
-        else
+        public T Value;
+        public Node Next;
+        public Node Prev;
+
+        public Node()
         {
-            current.Next = node;
-            node.Previous = current;
-            current = node;
+            Next = this;
+            Prev = this;
         }
-    }
 
-    /// <summary>
-    /// remove value at back
-    /// </summary>
-    /// <returns></returns>
-    public T Pop()
-    {
-        var previous = current.Previous;
-        var value = current.Data;
-        current = previous;
-        return value;
-    }
-
-    /// <summary>
-    /// remove value at front
-    /// </summary>
-    /// <param name="value"></param>
-    public void Unshift(T value)
-    {
-        var node = new Node<T>(value);
-        if (head == null) 
-        { 
-            head = node; 
-            current = head;
-        }
-        else
+        public void Append(T value)
         {
-            head.Previous = node;
-            node.Next = head;
-            head = node;
+            Next = Next.Prev = new Node { Value = value, Prev = this, Next = this.Next };
         }
-    }
 
-    /// <summary>
-    /// remove value at front
-    /// </summary>
-    /// <returns></returns>
-    public T Shift()
-    {
-        var next = head.Next;
-        var value = head.Data;
-        head = next;
-        return value;
-    }
-}
+        public T Remove()
+        {
+            Prev.Next = Next;
+            Next.Prev = Prev;
+            return Value;
+        }
+    };
 
-internal class Node<T>
-{
-    public Node<T> Next { get; set; }
-    public Node<T> Previous { get; set; }
-    public T Data { get; private set; }
+    Node root = new Node();
 
-    public Node(T data)
-    {
-        Data = data;
-    }
+    public void Push(T value) => root.Prev.Append(value);
+    public T Pop() => root.Prev.Remove();
+    public void Unshift(T value) => root.Append(value);
+    public T Shift() => root.Next.Remove();
+
 }
