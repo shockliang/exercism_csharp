@@ -22,13 +22,13 @@ public class CustomSet<T> : IEnumerable<T>, IEquatable<IEnumerable<T>>
         return this;
     }
 
-    public bool IsEmpty() => values.Equals(null) || values.Count().Equals(0);
+    public bool IsEmpty() => !values.Any();
 
     public bool Contains(T value) => values.Contains(value);
 
-    public bool IsSubsetOf(CustomSet<T> right) => Equals(right.Intersection(this));
+    public bool IsSubsetOf(CustomSet<T> right) => values.All(item => right.Contains(item));
 
-    public bool IsDisjointFrom(CustomSet<T> right) => Equals(this.Difference(right));
+    public bool IsDisjointFrom(CustomSet<T> right) => !values.Any(item => right.Contains(item));
 
     public CustomSet<T> Intersection(CustomSet<T> right)
         => new CustomSet<T>(this.Intersect(right).OrderBy(x => x));
@@ -39,11 +39,7 @@ public class CustomSet<T> : IEnumerable<T>, IEquatable<IEnumerable<T>>
     public CustomSet<T> Union(CustomSet<T> right)
         => new CustomSet<T>(values.Union(right).OrderByDescending(x => x));
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        foreach (var item in values)
-            yield return item;
-    }
+    public IEnumerator<T> GetEnumerator() => values.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
