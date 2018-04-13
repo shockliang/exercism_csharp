@@ -14,13 +14,10 @@ public class Node : BaseCollection
 
     public override bool Equals(object obj)
     {
-        if (obj == null)
+        if (obj == null || GetType() != obj.GetType())
             return false;
 
-        if (obj is Node)
-            return Name.Equals((obj as Node).Name);
-        else
-            return false;
+        return Name.Equals((obj as Node).Name);
     }
 
     public override int GetHashCode() => Name.GetHashCode();
@@ -39,13 +36,10 @@ public class Edge : BaseCollection
 
     public override bool Equals(object obj)
     {
-        if (obj == null)
+        if (obj == null || GetType() != obj.GetType())
             return false;
 
-        if (obj is Edge)
-            return PointA.Equals((obj as Edge).PointA) && PointB.Equals((obj as Edge).PointB);
-        else
-            return false;
+        return PointA.Equals((obj as Edge).PointA) && PointB.Equals((obj as Edge).PointB);
     }
 
     public override int GetHashCode()
@@ -65,13 +59,10 @@ public class Attr
 
     public override bool Equals(object obj)
     {
-        if (obj == null)
+        if (obj == null || GetType() != obj.GetType())
             return false;
-        
-        if(obj is Attr)
-            return Key.Equals((obj as Attr).Key) && Value.Equals((obj as Attr).Value);
-        else
-            return false;
+            
+        return Key.Equals((obj as Attr).Key) && Value.Equals((obj as Attr).Value);
     }
 
     public override int GetHashCode()
