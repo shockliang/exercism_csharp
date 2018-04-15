@@ -1,29 +1,45 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 public class CircularBuffer<T>
 {
+    private readonly int size;
+    private Queue<T> data;
     public CircularBuffer(int size)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        this.size = size;
+        data = new Queue<T>(size);
     }
 
     public T Read()
     {
-        throw new NotImplementedException("You need to implement this function.");
+        return data.Dequeue();
     }
 
     public void Write(T value)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        if (data.Count == size)
+            throw new InvalidOperationException();
+
+        data.Enqueue(value);
     }
 
     public void ForceWrite(T value)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        if (data.Count < size)
+        {
+            Write(value);
+        }
+        else
+        {
+            data.Dequeue();
+            data = new Queue<T>(data.Append(value).AsEnumerable());
+        }
     }
 
     public void Clear()
     {
-        throw new NotImplementedException("You need to implement this function.");
+        data.Clear();
     }
 }

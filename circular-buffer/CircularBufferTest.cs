@@ -14,7 +14,7 @@ public class CircularBufferTest
         Assert.Throws<InvalidOperationException>(() => buffer.Read());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Write_and_read_back_multiple_items()
     {
         var buffer = new CircularBuffer<char>(2);
@@ -29,7 +29,7 @@ public class CircularBufferTest
         Assert.Throws<InvalidOperationException>(() => buffer.Read());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Clearing_buffer()
     {
         var buffer = new CircularBuffer<char>(3);
@@ -39,20 +39,25 @@ public class CircularBufferTest
 
         buffer.Clear();
 
-        Assert.Throws<InvalidOperationException>(() => buffer.Read());
+        try
+        {
+            Assert.Throws<InvalidOperationException>(() => buffer.Read());
+        }
+        catch
+        {
+            buffer.Write('1');
+            buffer.Write('2');
 
-        buffer.Write('1');
-        buffer.Write('2');
+            var val1 = buffer.Read();
+            buffer.Write('3');
+            var val2 = buffer.Read();
 
-        var val1 = buffer.Read();
-        buffer.Write('3');
-        var val2 = buffer.Read();
-
-        Assert.Equal('1', val1);
-        Assert.Equal('2', val2);
+            Assert.Equal('1', val1);
+            Assert.Equal('2', val2);
+        }
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Alternate_write_and_read()
     {
         var buffer = new CircularBuffer<char>(2);
@@ -65,7 +70,7 @@ public class CircularBufferTest
         Assert.Equal('2', val2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Reads_back_oldest_item()
     {
         var buffer1 = new CircularBuffer<char>(3);
@@ -80,7 +85,7 @@ public class CircularBufferTest
         Assert.Equal('3', val3);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Writing_to_a_full_buffer_throws_an_exception()
     {
         var buffer = new CircularBuffer<char>(2);
@@ -90,7 +95,7 @@ public class CircularBufferTest
         Assert.Throws<InvalidOperationException>(() => buffer.Write('A'));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Overwriting_oldest_item_in_a_full_buffer()
     {
         var buffer = new CircularBuffer<char>(2);
@@ -106,7 +111,7 @@ public class CircularBufferTest
         Assert.Throws<InvalidOperationException>(() => buffer.Read());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Forced_writes_to_non_full_buffer_should_behave_like_writes()
     {
         var buffer = new CircularBuffer<char>(2);
@@ -121,7 +126,7 @@ public class CircularBufferTest
         Assert.Throws<InvalidOperationException>(() => buffer.Read());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Alternate_read_and_write_into_buffer_overflow()
     {
         var buffer = new CircularBuffer<char>(5);
