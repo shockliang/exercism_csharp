@@ -38,23 +38,18 @@ public class CircularBufferTest
         buffer.Write('3');
 
         buffer.Clear();
+        
+        Assert.Throws<InvalidOperationException>(() => buffer.Read());
+        
+        buffer.Write('1');
+        buffer.Write('2');
 
-        try
-        {
-            Assert.Throws<InvalidOperationException>(() => buffer.Read());
-        }
-        catch
-        {
-            buffer.Write('1');
-            buffer.Write('2');
+        var val1 = buffer.Read();
+        buffer.Write('3');
+        var val2 = buffer.Read();
 
-            var val1 = buffer.Read();
-            buffer.Write('3');
-            var val2 = buffer.Read();
-
-            Assert.Equal('1', val1);
-            Assert.Equal('2', val2);
-        }
+        Assert.Equal('1', val1);
+        Assert.Equal('2', val2);
     }
 
     [Fact]
