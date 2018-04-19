@@ -89,7 +89,7 @@ public class SpiralMatrix
 
             step++;
         }
-        var values = OutputValues(cells);
+        
         return OutputValues(cells);
     }
 
@@ -113,10 +113,6 @@ public class SpiralMatrix
         public T Value { get; set; }
         public int Row { get; private set; }
         public int Col { get; private set; }
-        public bool HasSpaceOnTheLeft { get; set; } = true;
-        public bool HasSpaceOnTheBottom { get; set; } = true;
-        public bool HasSpaceOnTheRight { get; set; } = true;
-        public bool HasSpaceOnTheTop { get; set; } = true;
         public Direction Spaces { get; set; } = Direction.All;
         public Direction NextDirection { get; private set; } = Direction.Left;
         private IDictionary<Direction, Cell<T>> neighbors = new Dictionary<Direction, Cell<T>>(4);
@@ -128,29 +124,12 @@ public class SpiralMatrix
             Col = col;
         }
 
-        // neighbor
         public void CheckBound(int bound)
         {
-            if (Col == 0)
-            {
-                HasSpaceOnTheLeft = false;
-                Spaces ^= Direction.Left;
-            }
-            if (Row == 0)
-            {
-                HasSpaceOnTheTop = false;
-                Spaces ^= Direction.Top;
-            }
-            if (Col + 1 == bound)
-            {
-                HasSpaceOnTheRight = false;
-                Spaces ^= Direction.Right;
-            }
-            if (Row + 1 == bound)
-            {
-                HasSpaceOnTheBottom = false;
-                Spaces ^= Direction.Bottom;
-            }
+            if (Col == 0) { Spaces ^= Direction.Left; }
+            if (Row == 0) { Spaces ^= Direction.Top; }
+            if (Col + 1 == bound) { Spaces ^= Direction.Right; }
+            if (Row + 1 == bound) { Spaces ^= Direction.Bottom; }
 
             NextDirection = GetNextDirection();
         }
