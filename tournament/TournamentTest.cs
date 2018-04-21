@@ -15,7 +15,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void A_win_is_three_points_a_loss_is_zero_points()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;win".Trim();
@@ -26,7 +26,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void A_win_can_also_be_expressed_as_a_loss()
     {
         var input = "Blithering Badgers;Allegoric Alaskans;loss".Trim();
@@ -37,7 +37,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void A_different_team_can_win()
     {
         var input = "Blithering Badgers;Allegoric Alaskans;win".Trim();
@@ -48,7 +48,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void A_draw_is_one_point_each()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;draw".Trim();
@@ -59,7 +59,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void There_can_be_more_than_one_match()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;win" + Environment.NewLine +
@@ -72,7 +72,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void There_can_be_more_than_one_winner()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;loss" + Environment.NewLine +
@@ -85,7 +85,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void There_can_be_more_than_two_teams()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;win" + Environment.NewLine +
@@ -100,7 +100,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Typical_input()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;win" + Environment.NewLine +
@@ -119,7 +119,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Incomplete_competition_not_all_pairs_have_played_()
     {
         var input = "Allegoric Alaskans;Blithering Badgers;loss" + Environment.NewLine +
@@ -136,7 +136,7 @@ public class TournamentTest
         Assert.Equal(expected, RunTally(input).Trim());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Ties_broken_alphabetically()
     {
         var input = "Courageous Californians;Devastating Donkeys;win" + Environment.NewLine +
