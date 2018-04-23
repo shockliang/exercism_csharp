@@ -10,13 +10,31 @@ public class BowlingGame
 
     public void Roll(int pins)
     {
-        if (pins < 0 || pins > 10) throw new ArgumentException();
-        if (isGameEnd) throw new ArgumentException();
-
+        if(IsDissatisfy(pins)) throw new ArgumentException();
+        
         var current = frames[step];
-        if (!current.IsBonus && current.Score + pins > 10) throw new ArgumentException();
         current.AddScore(pins);
 
+        AddPinsToPreviousFrames(pins);
+
+        if (IsBonusGameEnd(current) || IsTenFrameEnd(current))
+            isGameEnd = true;
+
+        if (current.IsGoingNext)
+            step++;
+    }
+
+    private bool IsDissatisfy(int pins)
+        => IsOutOfPinsRange(pins) || isGameEnd || frames[step].IsOverFrameLimit(pins);
+
+    private bool IsBonusGameEnd(Frame frame)
+        => step == 9 && (frame.IsStrike || frame.IsSpare) && frame.ScoreCount == 3;
+
+    private bool IsTenFrameEnd(Frame frame)
+        => step == 9 && !frame.IsBonus && frame.ScoreCount >= 2;
+
+    private void AddPinsToPreviousFrames(int pins)
+    {
         var takePrevousCount = step == 1 ? 1 : 2;
         if (step >= takePrevousCount)
         {
@@ -30,15 +48,10 @@ public class BowlingGame
                 }
             }
         }
-
-        if (step == 9 && (current.IsStrike || current.IsSpare) && current.ScoreCount == 3)
-            isGameEnd = true;
-        else if (step == 9 && !current.IsBonus && current.ScoreCount >= 2)
-            isGameEnd = true;
-
-        if (current.IsGoingNext)
-            step++;
     }
+
+    private bool IsOutOfPinsRange(int pins)
+        => pins < 0 || pins > 10;
 
     public int? Score()
         => step == 0 || step < 9 || !isGameEnd
@@ -64,14 +77,19 @@ public class Frame
     public void AddScore(int pins)
     {
         if (scores.Count == MAX_SCORE_COUNT) return;
-        if (IsBonus)
-        {
-            if (ScoreCount == 2 && scores.All(x => x == 10) && Score + pins > 30)
-                throw new ArgumentException();
-            else if (IsStrike && !scores.All(x => x == 10) && Score + pins > 20)
-                throw new ArgumentException();
-        }
+
+        if (IsOverBonusLimit(pins))
+            throw new ArgumentException();
 
         scores.Add(pins);
     }
+
+    private bool IsOverBonusLimit(int pins)
+        => IsBonus && IsStrike && !scores.All(x => x == 10) && Score + pins > 20;
+}
+
+public static class FrameExtensions
+{
+    public static bool IsOverFrameLimit(this Frame fram, int pins)
+        => !fram.IsBonus && fram.Score + pins > 10;
 }
