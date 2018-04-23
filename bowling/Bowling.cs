@@ -1,14 +1,77 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 public class BowlingGame
 {
-    public void Roll(int pins) 
+    private Frame[] frames = Enumerable.Range(0, 10).Select(i => new Frame(i)).ToArray();
+    private int step = 0;
+    private bool isGameEnd = false;
+
+    public void Roll(int pins)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        if (pins < 0 || pins > 10) throw new ArgumentException();
+        if (isGameEnd) throw new ArgumentException();
+
+        var current = frames[step];
+        if (!current.IsBonus && current.Score + pins > 10) throw new ArgumentException();
+        current.AddScore(pins);
+
+        var takePrevousCount = step == 1 ? 1 : 2;
+        if (step >= takePrevousCount)
+        {
+            var previous = frames.Skip(step - takePrevousCount).Take(takePrevousCount);
+            foreach (var frame in previous)
+            {
+                if (frame.IsSpare || frame.IsStrike)
+                {
+                    if (frame.Step < 9)
+                        frame.AddScore(pins);
+                }
+            }
+        }
+
+        if (step == 9 && (current.IsStrike || current.IsSpare) && current.ScoreCount == 3)
+            isGameEnd = true;
+        else if (step == 9 && !current.IsBonus && current.ScoreCount >= 2)
+            isGameEnd = true;
+
+        if (current.IsGoingNext)
+            step++;
     }
 
     public int? Score()
+        => step == 0 || step < 9 || !isGameEnd
+            ? throw new ArgumentException()
+            : frames.Take(step + 1).Sum(frame => frame.Score);
+}
+
+public class Frame
+{
+    private const int MAX_SCORE_COUNT = 3;
+    private List<int> scores = new List<int>(MAX_SCORE_COUNT);
+
+    public Frame(int step) => Step = step;
+
+    public readonly int Step;
+    public bool IsStrike => scores.FirstOrDefault().Equals(10);
+    public bool IsSpare => scores.Count() == 2 && scores.Sum() == 10;
+    public bool IsGoingNext => Step < 9 && (IsStrike || IsSpare || ScoreCount == 2);
+    public bool IsBonus => Step == 9 && (IsStrike || IsSpare);
+    public int Score => scores.Sum();
+    public int ScoreCount => scores.Count;
+
+    public void AddScore(int pins)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        if (scores.Count == MAX_SCORE_COUNT) return;
+        if (IsBonus)
+        {
+            if (ScoreCount == 2 && scores.All(x => x == 10) && Score + pins > 30)
+                throw new ArgumentException();
+            else if (IsStrike && !scores.All(x => x == 10) && Score + pins > 20)
+                throw new ArgumentException();
+        }
+
+        scores.Add(pins);
     }
 }
