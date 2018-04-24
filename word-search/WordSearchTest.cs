@@ -24,7 +24,7 @@ public class WordSearchTest
         Assert.Equal(new Tuple<int, int>(7, 10), actual.Item2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_find_horizontal_words_written_right_to_left()
     {
         var wordSearch = new WordSearch(Puzzle);
@@ -33,7 +33,7 @@ public class WordSearchTest
         Assert.Equal(new Tuple<int, int>(1, 5), actual.Item2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_find_vertical_words_written_top_to_bottom()
     {
         var wordSearch = new WordSearch(Puzzle);
@@ -42,7 +42,7 @@ public class WordSearchTest
         Assert.Equal(new Tuple<int, int>(10, 10), actual.Item2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_find_vertical_words_written_bottom_to_top()
     {
         var wordSearch = new WordSearch(Puzzle);
