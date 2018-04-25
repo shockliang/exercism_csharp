@@ -12,6 +12,10 @@ public class WordSearch
     private List<string> topToBottom;
     private List<string> bottomToTop;
     private List<PuzzleString> topLeftToBottomRight;
+    private List<PuzzleString> topRightToBottomLeft;
+
+    private readonly int maxColCount = 0;
+
     public WordSearch(string puzzle)
     {
         leftToRight = puzzle.Split('\n').ToList();
@@ -23,6 +27,9 @@ public class WordSearch
         bottomToTop = topToBottom.Select(x => Concat(x.Reverse())).ToList();
 
         topLeftToBottomRight = GetDiagonals(leftToRight);
+
+        topRightToBottomLeft = GetDiagonals(rightToLeft);
+        maxColCount = leftToRight.FirstOrDefault().Length;
     }
 
     private List<PuzzleString> GetDiagonals(List<string> puzzleLines)
@@ -43,7 +50,6 @@ public class WordSearch
                 row += row < puzzleLines.Count ? 1 : 0;
                 col += col < puzzleLines[i].Length ? 1 : 0;
             }
-            // diagonals.Add(Concat(str));
             diagonals.Add(puzzleWord);
             step++;
         }
@@ -57,11 +63,10 @@ public class WordSearch
             var puzzleWord = new PuzzleString();
             for (int j = 0; j < step; j++)
             {
-                puzzleWord.Add(puzzleLines[row][col++], col, row);
-                // str.Add(puzzleLines[row][col++]);
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                col++;
                 row += row < puzzleLines.Count ? 1 : 0;
             }
-            // diagonals.Add(Concat(str));
             diagonals.Add(puzzleWord);
             step--;
         }
@@ -124,6 +129,19 @@ public class WordSearch
             {
                 var (start, end) = topLeftToBottomRight[i].GetCoordinate(word);
                 return Tuple.Create(Tuple.Create(start.X + 1, start.Y + 1), Tuple.Create(end.X + 1, end.Y + 1));
+            }
+        }
+
+        for (int i = 0; i < topRightToBottomLeft.Count; i++)
+        {
+            if (regex.IsMatch(topRightToBottomLeft[i].ToString()))
+            {
+                var (start, end) = topRightToBottomLeft[i].GetCoordinate(word);
+                var startRow = start.Y + 1;
+                var startCol = maxColCount - start.X;
+                var endRow = end.Y + 1;
+                var endCol = maxColCount - end.X;
+                return Tuple.Create(Tuple.Create(startCol, startRow), Tuple.Create(endCol, endRow));
             }
         }
 
