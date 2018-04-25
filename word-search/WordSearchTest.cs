@@ -51,7 +51,7 @@ public class WordSearchTest
         Assert.Equal(new Tuple<int, int>(9, 2), actual.Item2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_find_diagonal_words_written_top_left_to_bottom_right()
     {
         var wordSearch = new WordSearch(Puzzle);
