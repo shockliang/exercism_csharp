@@ -13,8 +13,11 @@ public class WordSearch
     private List<string> bottomToTop;
     private List<PuzzleString> topLeftToBottomRight;
     private List<PuzzleString> topRightToBottomLeft;
+    private List<PuzzleString> bottomRightToTopLeft;
+    private List<PuzzleString> bottomLeftToTopRight;
 
     private readonly int maxColCount = 0;
+    private readonly int maxRowCount = 0;
 
     public WordSearch(string puzzle)
     {
@@ -27,9 +30,11 @@ public class WordSearch
         bottomToTop = topToBottom.Select(x => Concat(x.Reverse())).ToList();
 
         topLeftToBottomRight = GetDiagonals(leftToRight);
-
         topRightToBottomLeft = GetDiagonals(rightToLeft);
+        bottomLeftToTopRight = GetDiagonals(bottomToTop);
+
         maxColCount = leftToRight.FirstOrDefault().Length;
+        maxRowCount = leftToRight.Count;
     }
 
     private List<PuzzleString> GetDiagonals(List<string> puzzleLines)
@@ -141,6 +146,19 @@ public class WordSearch
                 var startCol = maxColCount - start.X;
                 var endRow = end.Y + 1;
                 var endCol = maxColCount - end.X;
+                return Tuple.Create(Tuple.Create(startCol, startRow), Tuple.Create(endCol, endRow));
+            }
+        }
+
+        for (int i = 0; i < bottomLeftToTopRight.Count; i++)
+        {
+            if (regex.IsMatch(bottomLeftToTopRight[i].ToString()))
+            {
+                var (start, end) = bottomLeftToTopRight[i].GetCoordinate(word);
+                var startRow = maxRowCount - (start.X + 1) + 1;
+                var startCol = start.Y + 1;
+                var endRow = maxRowCount - (end.X + 1) + 1;
+                var endCol = end.Y + 1;
                 return Tuple.Create(Tuple.Create(startCol, startRow), Tuple.Create(endCol, endRow));
             }
         }
