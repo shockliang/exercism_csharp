@@ -12,7 +12,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Two_characters_in_a_row()
     {
         var input = "A1";
@@ -22,7 +22,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Two_characters_in_a_column()
     {
         var input = 
@@ -32,7 +32,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Simple()
     {
         var input = 
@@ -45,7 +45,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Single_line()
     {
         var input = "Single line.";
@@ -65,7 +65,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void First_line_longer_than_second_line()
     {
         var input = 
@@ -91,7 +91,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Second_line_longer_than_first_line()
     {
         var input = 
@@ -114,10 +114,11 @@ public class TransposeTest
             "en\n" +
             ".e\n" +
             " .";
+        var actual = Transpose.String(input);
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Square()
     {
         var input = 
@@ -135,7 +136,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Rectangle()
     {
         var input = 
@@ -155,7 +156,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Triangle()
     {
         var input = 
@@ -175,7 +176,7 @@ public class TransposeTest
         Assert.Equal(expected, Transpose.String(input));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Many_lines()
     {
         var input = 
