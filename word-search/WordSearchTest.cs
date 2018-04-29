@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Xunit;
 
 public class WordSearchTest
@@ -60,7 +61,7 @@ public class WordSearchTest
         Assert.Equal(new Tuple<int, int>(4, 4), actual.Item2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_find_diagonal_upper_written_bottom_right_to_top_left()
     {
         var wordSearch = new WordSearch(Puzzle);
@@ -87,7 +88,7 @@ public class WordSearchTest
         Assert.Equal(new Tuple<int, int>(5, 9), actual.Item2);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_not_find_words_that_are_not_in_the_puzzle()
     {
         var wordSearch = new WordSearch(Puzzle);
@@ -95,7 +96,7 @@ public class WordSearchTest
         Assert.Null(actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Should_be_able_to_search_differently_sized_puzzles()
     {
         const string differentSizePuzzle =

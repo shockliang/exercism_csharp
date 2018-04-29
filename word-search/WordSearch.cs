@@ -7,51 +7,24 @@ using static System.String;
 
 public class WordSearch
 {
-    private List<string> leftToRight;
-    private List<string> rightToLeft;
-    private List<string> topToBottom;
-    private List<string> bottomToTop;
-    private List<PuzzleString> topLeftToBottomRight;
-    private List<PuzzleString> topRightToBottomLeft;
-    private List<PuzzleString> bottomRightToTopLeft;
-    private List<PuzzleString> bottomLeftToTopRight;
-
-    private readonly int maxColCount = 0;
-    private readonly int maxRowCount = 0;
+    private readonly string puzzle;
 
     public WordSearch(string puzzle)
-    {
-        leftToRight = puzzle.Split('\n').ToList();
-        rightToLeft = leftToRight.Select(x => Concat(x.Reverse())).ToList();
-        topToBottom = Enumerable
-            .Range(0, leftToRight.Count)
-            .Select(i => Concat(leftToRight.Select(line => line.ElementAt(i))))
-            .ToList();
-        bottomToTop = topToBottom.Select(x => Concat(x.Reverse())).ToList();
+        => this.puzzle = puzzle;
 
-        topLeftToBottomRight = GetDiagonals(leftToRight);
-        topRightToBottomLeft = GetDiagonals(rightToLeft);
-        bottomLeftToTopRight = GetDiagonals(bottomToTop);
-
-        maxColCount = leftToRight.FirstOrDefault().Length;
-        maxRowCount = leftToRight.Count;
-    }
-
-    private List<PuzzleString> GetDiagonals(List<string> puzzleLines)
+    private List<PuzzleString> GetTopLeftToBottomRightDiagonals(List<string> puzzleLines)
     {
         var diagonals = new List<PuzzleString>();
         int row = 0, col = 0;
         int step = 1;
         for (int i = 0; i < puzzleLines.Count; i++)
         {
-            var str = new List<char>();
             row = 0;
             col = puzzleLines.Count - i - 1;
             var puzzleWord = new PuzzleString();
             for (int j = 0; j < step; j++)
             {
                 puzzleWord.Add(puzzleLines[row][col], col, row);
-                str.Add(puzzleLines[row][col]);
                 row += row < puzzleLines.Count ? 1 : 0;
                 col += col < puzzleLines[i].Length ? 1 : 0;
             }
@@ -62,7 +35,6 @@ public class WordSearch
         step = puzzleLines.FirstOrDefault().Length - 1;
         for (int i = 1; i < puzzleLines.Count; i++)
         {
-            var str = new List<char>();
             row = i;
             col = 0;
             var puzzleWord = new PuzzleString();
@@ -79,10 +51,129 @@ public class WordSearch
         return diagonals;
     }
 
+    private List<PuzzleString> GetTopRightToBottomLeftDiagonals(List<string> puzzleLines)
+    {
+        var diagonals = new List<PuzzleString>();
+        int row = 0, col = 0;
+        int step = 1;
+        for (int i = 0; i < puzzleLines.Count; i++)
+        {
+            row = 0;
+            col = step - 1;
+            var puzzleWord = new PuzzleString();
+            for (int j = 0; j < step; j++)
+            {
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                row += row < puzzleLines.Count ? 1 : 0;
+                col -= col < puzzleLines[i].Length ? 1 : 0;
+            }
+            diagonals.Add(puzzleWord);
+            step++;
+        }
+
+        step = puzzleLines.FirstOrDefault().Length - 1;
+        for (int i = 1; i < puzzleLines.Count; i++)
+        {
+            row = i;
+            col = puzzleLines.FirstOrDefault().Length - 1;
+            var puzzleWord = new PuzzleString();
+            for (int j = 0; j < step; j++)
+            {
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                col--;
+                row += row < puzzleLines.Count ? 1 : 0;
+            }
+            diagonals.Add(puzzleWord);
+            step--;
+        }
+
+        return diagonals;
+    }
+
+    private List<PuzzleString> GetBottomLeftToTopRightDiagonals(List<string> puzzleLines)
+    {
+        var diagonals = new List<PuzzleString>();
+        int row = 0, col = 0;
+        int step = 1;
+        for (int i = 0; i < puzzleLines.Count; i++)
+        {
+            row = step - 1;
+            col = 0;
+            var puzzleWord = new PuzzleString();
+            for (int j = 0; j < step; j++)
+            {
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                row -= row < puzzleLines.Count ? 1 : 0;
+                col += col < puzzleLines[i].Length ? 1 : 0;
+            }
+            diagonals.Add(puzzleWord);
+            step++;
+        }
+
+        step = puzzleLines.FirstOrDefault().Length - 1;
+        for (int i = 1; i < puzzleLines.Count; i++)
+        {
+            row = puzzleLines.FirstOrDefault().Length - 1;
+            col = i;
+            var puzzleWord = new PuzzleString();
+            for (int j = 0; j < step; j++)
+            {
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                col += col < puzzleLines.Count ? 1 : 0;
+                row--;
+            }
+            diagonals.Add(puzzleWord);
+            step--;
+        }
+
+        return diagonals;
+    }
+    private List<PuzzleString> GetBottomRightToTopLefttDiagonals(List<string> puzzleLines)
+    {
+        var diagonals = new List<PuzzleString>();
+        int row = 0, col = 0;
+        int step = 1;
+        for (int i = 0; i < puzzleLines.Count; i++)
+        {
+            row = i;
+            col = puzzleLines.Count - 1;
+            var puzzleWord = new PuzzleString();
+            for (int j = 0; j < step; j++)
+            {
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                row -= row < puzzleLines.Count ? 1 : 0;
+                col -= col < puzzleLines[i].Length ? 1 : 0;
+            }
+            diagonals.Add(puzzleWord);
+            step++;
+        }
+
+        step = puzzleLines.FirstOrDefault().Length - 1;
+        for (int i = 1; i < puzzleLines.Count; i++)
+        {
+            row = puzzleLines.Count - 1;
+            col = step - 1;
+            var puzzleWord = new PuzzleString();
+            for (int j = 0; j < step; j++)
+            {
+                puzzleWord.Add(puzzleLines[row][col], col, row);
+                col -= col < puzzleLines[i].Length ? 1 : 0;
+                row--;
+            }
+            diagonals.Add(puzzleWord);
+            step--;
+        }
+
+        return diagonals;
+    }
+
     public Tuple<Tuple<int, int>, Tuple<int, int>> Find(string word)
     {
         var regex = new Regex(word);
-        var reverseWord = Concat(word.Reverse());
+
+        var leftToRight = puzzle.Split('\n').ToList();
+        var maxColCount = leftToRight.FirstOrDefault().Length;
+        var maxRowCount = leftToRight.Count;
 
         for (int i = 0; i < leftToRight.Count; i++)
         {
@@ -95,6 +186,7 @@ public class WordSearch
             }
         }
 
+        var rightToLeft = leftToRight.Select(x => Concat(x.Reverse())).ToList();
         for (int i = 0; i < rightToLeft.Count; i++)
         {
             if (regex.IsMatch(rightToLeft[i]))
@@ -106,6 +198,10 @@ public class WordSearch
             }
         }
 
+        var topToBottom = Enumerable
+            .Range(0, leftToRight.Count)
+            .Select(i => Concat(leftToRight.Select(line => line.ElementAt(i))))
+            .ToList();
         for (int i = 0; i < topToBottom.Count; i++)
         {
             if (regex.IsMatch(topToBottom[i]))
@@ -117,6 +213,7 @@ public class WordSearch
             }
         }
 
+        var bottomToTop = topToBottom.Select(x => Concat(x.Reverse())).ToList();
         for (int i = 0; i < bottomToTop.Count; i++)
         {
             if (regex.IsMatch(bottomToTop[i]))
@@ -128,42 +225,40 @@ public class WordSearch
             }
         }
 
-        for (int i = 0; i < topLeftToBottomRight.Count; i++)
+        // I don't how to define diagonals of N * M matrix...
+        if (maxColCount != maxRowCount) return null;
+
+        var topLeftToBottomRight = GetTopLeftToBottomRightDiagonals(leftToRight);
+        var tlToBr = FindDiagonals(word, topLeftToBottomRight);
+        if (tlToBr != null) return tlToBr;
+
+        var topRightToBottomLeft = GetTopRightToBottomLeftDiagonals(leftToRight);
+        var trToBl = FindDiagonals(word, topRightToBottomLeft);
+        if (trToBl != null) return trToBl;
+
+        var bottomLeftToTopRight = GetBottomLeftToTopRightDiagonals(leftToRight);
+        var blToTr = FindDiagonals(word, bottomLeftToTopRight);
+        if (blToTr != null) return blToTr;
+
+        var bottomRightToTopLeft = GetBottomRightToTopLefttDiagonals(leftToRight);
+        var brToTl = FindDiagonals(word, bottomRightToTopLeft);
+        if (brToTl != null) return brToTl;
+
+        return null;
+    }
+
+    private Tuple<Tuple<int, int>, Tuple<int, int>> FindDiagonals(string word, List<PuzzleString> puzzleStrings)
+    {
+        var regex = new Regex(word);
+        for (int i = 0; i < puzzleStrings.Count; i++)
         {
-            if (regex.IsMatch(topLeftToBottomRight[i].ToString()))
+            if (regex.IsMatch(puzzleStrings[i].ToString()))
             {
-                var (start, end) = topLeftToBottomRight[i].GetCoordinate(word);
+                var (start, end) = puzzleStrings[i].GetCoordinate(word);
                 return Tuple.Create(Tuple.Create(start.X + 1, start.Y + 1), Tuple.Create(end.X + 1, end.Y + 1));
             }
         }
-
-        for (int i = 0; i < topRightToBottomLeft.Count; i++)
-        {
-            if (regex.IsMatch(topRightToBottomLeft[i].ToString()))
-            {
-                var (start, end) = topRightToBottomLeft[i].GetCoordinate(word);
-                var startRow = start.Y + 1;
-                var startCol = maxColCount - start.X;
-                var endRow = end.Y + 1;
-                var endCol = maxColCount - end.X;
-                return Tuple.Create(Tuple.Create(startCol, startRow), Tuple.Create(endCol, endRow));
-            }
-        }
-
-        for (int i = 0; i < bottomLeftToTopRight.Count; i++)
-        {
-            if (regex.IsMatch(bottomLeftToTopRight[i].ToString()))
-            {
-                var (start, end) = bottomLeftToTopRight[i].GetCoordinate(word);
-                var startRow = maxRowCount - (start.X + 1) + 1;
-                var startCol = start.Y + 1;
-                var endRow = maxRowCount - (end.X + 1) + 1;
-                var endCol = end.Y + 1;
-                return Tuple.Create(Tuple.Create(startCol, startRow), Tuple.Create(endCol, endRow));
-            }
-        }
-
-        return Tuple.Create(Tuple.Create(0, 0), Tuple.Create(0, 0));
+        return null;
     }
 }
 
