@@ -13,7 +13,7 @@ public class RailFenceCipherTest
         Assert.Equal(expected, sut.Encode(msg));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Encode_with_three_rails()
     {
         var msg = "WEAREDISCOVEREDFLEEATONCE";
@@ -22,7 +22,7 @@ public class RailFenceCipherTest
         Assert.Equal(expected, sut.Encode(msg));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Encode_with_ending_in_the_middle()
     {
         var msg = "EXERCISES";
