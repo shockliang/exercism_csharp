@@ -23,6 +23,15 @@ public class RailFenceCipherTest
     }
 
     [Fact]
+    public void Decode_with_three_rails_2()
+    {
+        var msg = "WECRLTEERDSOEEFEAOCAIVDEN";
+        var sut = new RailFenceCipher(3);
+        var expected = "WEAREDISCOVEREDFLEEATONCE";
+        Assert.Equal(expected, sut.Decode(msg));
+    }
+
+    [Fact]
     public void Encode_with_ending_in_the_middle()
     {
         var msg = "EXERCISES";
@@ -31,7 +40,7 @@ public class RailFenceCipherTest
         Assert.Equal(expected, sut.Encode(msg));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Decode_with_three_rails()
     {
         var msg = "TEITELHDVLSNHDTISEIIEA";
@@ -40,7 +49,7 @@ public class RailFenceCipherTest
         Assert.Equal(expected, sut.Decode(msg));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Decode_with_five_rails()
     {
         var msg = "EIEXMSMESAORIWSCE";
@@ -49,12 +58,21 @@ public class RailFenceCipherTest
         Assert.Equal(expected, sut.Decode(msg));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Decode_with_six_rails()
     {
         var msg = "133714114238148966225439541018335470986172518171757571896261";
         var sut = new RailFenceCipher(6);
         var expected = "112358132134558914423337761098715972584418167651094617711286";
         Assert.Equal(expected, sut.Decode(msg));
+    }
+
+    [Fact]
+    public void Encode_with_six_rails()
+    {
+        var msg = "112358132134558914423337761098715972584418167651094617711286";
+        var sut = new RailFenceCipher(6);
+        var expected = "133714114238148966225439541018335470986172518171757571896261";
+        Assert.Equal(expected, sut.Encode(msg));
     }
 }
