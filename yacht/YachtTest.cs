@@ -64,43 +64,43 @@ public class YachtTest
         Assert.Equal(6, YachtGame.Score(new[] { 2, 3, 4, 5, 6 }, YachtCategory.Sixes));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Full_house_two_small_three_big()
     {
         Assert.Equal(16, YachtGame.Score(new[] { 2, 2, 4, 4, 4 }, YachtCategory.FullHouse));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Full_house_three_small_two_big()
     {
         Assert.Equal(19, YachtGame.Score(new[] { 5, 3, 3, 5, 3 }, YachtCategory.FullHouse));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Two_pair_is_not_a_full_house()
     {
         Assert.Equal(0, YachtGame.Score(new[] { 2, 2, 4, 4, 5 }, YachtCategory.FullHouse));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Yacht_is_not_a_full_house()
     {
         Assert.Equal(0, YachtGame.Score(new[] { 2, 2, 2, 2, 2 }, YachtCategory.FullHouse));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Four_of_a_kind()
     {
         Assert.Equal(24, YachtGame.Score(new[] { 6, 6, 4, 6, 6 }, YachtCategory.FourOfAKind));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Yacht_can_be_scored_as_four_of_a_kind()
     {
         Assert.Equal(12, YachtGame.Score(new[] { 3, 3, 3, 3, 3 }, YachtCategory.FourOfAKind));
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Full_house_is_not_four_of_a_kind()
     {
         Assert.Equal(0, YachtGame.Score(new[] { 3, 3, 3, 5, 5 }, YachtCategory.FourOfAKind));

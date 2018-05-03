@@ -29,6 +29,8 @@ public static class YachtGame
         [YachtCategory.Fours] = IsFours,
         [YachtCategory.Fives] = IsFives,
         [YachtCategory.Sixes] = IsSixes,
+        [YachtCategory.FullHouse] = IsFullHouse,
+        [YachtCategory.FourOfAKind] = IsFourOfAKind,
     };
 
     public static int Score(int[] dice, YachtCategory category)
@@ -54,6 +56,22 @@ public static class YachtGame
 
     private static int IsSixes(int[] dice)
         => GetOneToSixCategoryScore(dice, 6);
+
+    private static int IsFullHouse(int[] dice)
+    {
+        var groups = dice.GroupBy(x => x);
+        var three = groups.Where(g => g.Count() == 3);
+        var two = groups.Where(g => g.Count() == 2);
+        var isFullHouse = three.Count() == 1 && two.Count() == 1;
+        return isFullHouse ? dice.Sum() : 0;
+    }
+
+    private static int IsFourOfAKind(int[] dice)
+    {
+        var groups = dice.GroupBy(x => x);
+        var four = groups.Where(g => g.Count() >= 4);
+        return four.Count() == 1 ? four.Single().Take(4).Sum() : 0;
+    }
 
     private static int GetOneToSixCategoryScore(int[] dice, int number)
         => dice.Where(val => val == number).Sum();
