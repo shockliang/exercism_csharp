@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 public enum YachtCategory
 {
@@ -18,9 +20,43 @@ public enum YachtCategory
 
 public static class YachtGame
 {
-    public static int Score(int[] dice, YachtCategory category)
+    private static Dictionary<YachtCategory, Func<int[], int>> methods = new Dictionary<YachtCategory, Func<int[], int>>()
     {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+        [YachtCategory.Yacht] = IsYacht,
+        [YachtCategory.Ones] = IsOnes,
+        [YachtCategory.Twos] = IsTwos,
+        [YachtCategory.Threes] = IsThrees,
+        [YachtCategory.Fours] = IsFours,
+        [YachtCategory.Fives] = IsFives,
+        [YachtCategory.Sixes] = IsSixes,
+    };
+
+    public static int Score(int[] dice, YachtCategory category)
+        => methods[category].Invoke(dice);
+
+    private static int IsYacht(int[] dice)
+        => dice.Distinct().Count() == 1 ? 50 : 0;
+
+    private static int IsOnes(int[] dice)
+        => GetOneToSixCategoryScore(dice, 1);
+
+    private static int IsTwos(int[] dice)
+        => GetOneToSixCategoryScore(dice, 2);
+
+    private static int IsThrees(int[] dice)
+        => GetOneToSixCategoryScore(dice, 3);
+
+    private static int IsFours(int[] dice)
+        => GetOneToSixCategoryScore(dice, 4);
+
+    private static int IsFives(int[] dice)
+        => GetOneToSixCategoryScore(dice, 5);
+
+    private static int IsSixes(int[] dice)
+        => GetOneToSixCategoryScore(dice, 6);
+
+    private static int GetOneToSixCategoryScore(int[] dice, int number)
+        => dice.Where(val => val == number).Sum();
+
 }
 
