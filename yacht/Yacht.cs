@@ -31,6 +31,9 @@ public static class YachtGame
         [YachtCategory.Sixes] = IsSixes,
         [YachtCategory.FullHouse] = IsFullHouse,
         [YachtCategory.FourOfAKind] = IsFourOfAKind,
+        [YachtCategory.LittleStraight] = IsLittleStraight,
+        [YachtCategory.BigStraight] = IsBigStraight,
+        [YachtCategory.Choice] = IsChoice,
     };
 
     public static int Score(int[] dice, YachtCategory category)
@@ -57,6 +60,18 @@ public static class YachtGame
     private static int IsSixes(int[] dice)
         => GetOneToSixCategoryScore(dice, 6);
 
+    private static int IsLittleStraight(int[] dice)
+        => dice.OrderBy(x => x).SequenceEqual(new int[] { 1, 2, 3, 4, 5 }) ? 30 : 0;
+
+    private static int IsBigStraight(int[] dice)
+        => dice.OrderBy(x => x).SequenceEqual(new int[] { 2, 3, 4, 5, 6 }) ? 30 : 0;
+
+    private static int IsChoice(int[] dice)
+        => dice.Sum();
+
+    private static int GetOneToSixCategoryScore(int[] dice, int number)
+        => dice.Where(val => val == number).Sum();
+
     private static int IsFullHouse(int[] dice)
     {
         var groups = dice.GroupBy(x => x);
@@ -72,9 +87,5 @@ public static class YachtGame
         var four = groups.Where(g => g.Count() >= 4);
         return four.Count() == 1 ? four.Single().Take(4).Sum() : 0;
     }
-
-    private static int GetOneToSixCategoryScore(int[] dice, int number)
-        => dice.Where(val => val == number).Sum();
-
 }
 
