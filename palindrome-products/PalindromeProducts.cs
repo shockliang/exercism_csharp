@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class Palindrome
 {
@@ -29,10 +30,10 @@ public class Palindrome
     {
         return Enumerable
             .Range(min, max - min + 1)
+            .AsParallel()
             .SelectMany(i => Enumerable
                 .Range(min, max - min + 1)
                 .Select(j => i * j))
-            .Distinct()
             .Where(num => IsPalindromicNumber(num));
     }
 
