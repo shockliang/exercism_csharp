@@ -3,12 +3,36 @@ using Xunit;
 
 public class PalindromeTest
 {
+    [Theory()]
+    [InlineData(1)]
+    [InlineData(9)]
+    [InlineData(11)]
+    [InlineData(99)]
+    [InlineData(101)]
+    [InlineData(111)]
+    [InlineData(121)]
+    [InlineData(989)]
+    [InlineData(1771)]
+    public void There_numbers_should_be_palindrome_number(int num)
+    {
+        Assert.Equal(true, Palindrome.IsPalindromicNumber(num));
+    }
+
+    [Theory()]
+    [InlineData(12)]
+    [InlineData(998)]
+    [InlineData(1234)]
+    public void There_numbers_should_not_be_palindrome_number(int num)
+    {
+        Assert.Equal(false, Palindrome.IsPalindromicNumber(num));
+    }
+
     [Fact]
     public void Largest_palindrome_from_single_digit_factors()
     {
         var actual = Palindrome.Largest(9);
         Assert.Equal(9, actual.Value);
-        Assert.Equal(new [] { Tuple.Create(1, 9), Tuple.Create(3, 3) }, actual.Factors);
+        Assert.Equal(new[] { Tuple.Create(1, 9), Tuple.Create(3, 3) }, actual.Factors);
     }
 
     [Fact(Skip = "Remove to run test")]
