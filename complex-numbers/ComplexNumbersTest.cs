@@ -12,35 +12,35 @@ public class ComplexNumbersTest
         Assert.Equal(1, sut.Real());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Real_part_of_a_purely_imaginary_number()
     {
         var sut = new ComplexNumber(0, 1);
         Assert.Equal(0, sut.Real());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Real_part_of_a_number_with_real_and_imaginary_part()
     {
         var sut = new ComplexNumber(1, 2);
         Assert.Equal(1, sut.Real());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Imaginary_part_of_a_purely_real_number()
     {
         var sut = new ComplexNumber(1, 0);
         Assert.Equal(0, sut.Imaginary());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Imaginary_part_of_a_purely_imaginary_number()
     {
         var sut = new ComplexNumber(0, 1);
         Assert.Equal(1, sut.Imaginary());
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Imaginary_part_of_a_number_with_real_and_imaginary_part()
     {
         var sut = new ComplexNumber(1, 2);
@@ -56,7 +56,7 @@ public class ComplexNumbersTest
         Assert.Equal(expected.Imaginary(), sut.Mul(new ComplexNumber(0, 1)).Imaginary(), precision: 15);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_purely_real_numbers()
     {
         var sut = new ComplexNumber(1, 0);
@@ -65,7 +65,7 @@ public class ComplexNumbersTest
         Assert.Equal(expected.Imaginary(), sut.Add(new ComplexNumber(2, 0)).Imaginary(), precision: 15);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_purely_imaginary_numbers()
     {
         var sut = new ComplexNumber(0, 1);
@@ -74,7 +74,7 @@ public class ComplexNumbersTest
         Assert.Equal(expected.Imaginary(), sut.Add(new ComplexNumber(0, 2)).Imaginary(), precision: 15);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Add_numbers_with_real_and_imaginary_part()
     {
         var sut = new ComplexNumber(1, 2);

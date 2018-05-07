@@ -2,19 +2,18 @@ using System;
 
 public struct ComplexNumber
 {
+    private readonly double real;
+    private readonly double imaginary;
+
     public ComplexNumber(double real, double imaginary)
     {
+        this.real = real;
+        this.imaginary = imaginary;
     }
 
-    public double Real()
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public double Real() => real;
 
-    public double Imaginary()
-    {
-        throw new NotImplementedException("You need to implement this function.");
-    }
+    public double Imaginary() => imaginary;
 
     public ComplexNumber Mul(ComplexNumber other)
     {
@@ -23,7 +22,7 @@ public struct ComplexNumber
 
     public ComplexNumber Add(ComplexNumber other)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        return new ComplexNumber(real + other.Real(), imaginary + other.Imaginary());
     }
 
     public ComplexNumber Sub(ComplexNumber other)
@@ -45,7 +44,7 @@ public struct ComplexNumber
     {
         throw new NotImplementedException("You need to implement this function.");
     }
-    
+
     public ComplexNumber Exp()
     {
         throw new NotImplementedException("You need to implement this function.");
