@@ -83,7 +83,7 @@ public class ComplexNumbersTest
         Assert.Equal(expected.Imaginary(), sut.Add(new ComplexNumber(3, 4)).Imaginary(), precision: 15);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_purely_real_numbers()
     {
         var sut = new ComplexNumber(1, 0);
@@ -92,7 +92,7 @@ public class ComplexNumbersTest
         Assert.Equal(expected.Imaginary(), sut.Sub(new ComplexNumber(2, 0)).Imaginary(), precision: 15);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_purely_imaginary_numbers()
     {
         var sut = new ComplexNumber(0, 1);
@@ -101,7 +101,7 @@ public class ComplexNumbersTest
         Assert.Equal(expected.Imaginary(), sut.Sub(new ComplexNumber(0, 2)).Imaginary(), precision: 15);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Subtract_numbers_with_real_and_imaginary_part()
     {
         var sut = new ComplexNumber(1, 2);

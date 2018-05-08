@@ -27,7 +27,7 @@ public struct ComplexNumber
 
     public ComplexNumber Sub(ComplexNumber other)
     {
-        throw new NotImplementedException("You need to implement this function.");
+        return new ComplexNumber(real - other.Real(), imaginary - other.Imaginary());
     }
 
     public ComplexNumber Div(ComplexNumber other)
