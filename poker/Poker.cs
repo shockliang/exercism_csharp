@@ -54,7 +54,7 @@ public class Card
     public char Symbol { get; private set; }
     public Card(string card)
     {
-        Symbol = card.FirstOrDefault();
+        Symbol = card.Length > 2 ? 'T' : card.FirstOrDefault();
         Suit = card.LastOrDefault();
     }
 }
@@ -76,6 +76,11 @@ public class RankingValidator
             [Ranking.OnePair] = IsOnePair,
             [Ranking.HighCard] = IsHighCard,
         };
+    }
+
+    public Ranking GetHighestRanking(Hand hand)
+    {
+        return validators.FirstOrDefault(kvp => kvp.Value.Invoke(hand)).Key;
     }
 
     public bool IsStraightFlush(Hand hand)
@@ -149,6 +154,7 @@ public static class Extensions
         {
             switch (card.Symbol)
             {
+                case 'T': return 10;
                 case 'J': return 11;
                 case 'Q': return 12;
                 case 'K': return 13;

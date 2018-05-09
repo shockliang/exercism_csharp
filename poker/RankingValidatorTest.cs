@@ -27,6 +27,7 @@ public class RankingValidatorTest
 
     [Theory]
     [InlineData("4H 6H 7H 8H 5H")]
+    [InlineData("7S 8S 9S 6S 10S")]
     public void IsStraightFlush_should_be_true(string pokerHand)
     {
         // Arrange 
@@ -101,5 +102,33 @@ public class RankingValidatorTest
 
         // Act & Assert
         Assert.True(validator.IsOnePair(hand));
+    }
+
+    [Fact]
+    public void FullHouse_should_be_highest_ranking_than_three_of_a_kind()
+    {
+        // Arrange
+        var hand = new Hand("4S 5H 4C 5D 4H");
+        var rankingValidator = new RankingValidator();
+
+        // Act
+        var actual = rankingValidator.GetHighestRanking(hand);
+        
+        // Assert
+        Assert.Equal(Ranking.FullHouse, actual);
+    }
+
+    [Fact]
+    public void StraightFlush_should_be_highest_ranking_than_straight()
+    {
+        // Arrange
+        var hand = new Hand("7S 8S 9S 6S 10S");
+        var rankingValidator = new RankingValidator();
+
+        // Act
+        var actual = rankingValidator.GetHighestRanking(hand);
+        
+        // Assert
+        Assert.Equal(Ranking.StraightFlush, actual);
     }
 }
