@@ -85,12 +85,18 @@ public class RankingValidator
 
     public bool IsFourOfAKind(Hand hand)
     {
-        return true;
+        return hand.Cards
+            .GroupBy(card => card.Symbol)
+            .Any(g => g.Count() == 4);
     }
 
     public bool IsFullHouse(Hand hand)
     {
-        return true;
+        return hand.Cards
+            .GroupBy(card => card.Symbol)
+            .Select(g => g.Count())
+            .OrderBy(x => x)
+            .SequenceEqual(new int[] { 2, 3 });
     }
 
     public bool IsFlush(Hand hand)
