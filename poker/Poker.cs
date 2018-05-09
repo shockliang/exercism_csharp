@@ -115,17 +115,25 @@ public class RankingValidator
 
     public bool IsThreeOfAKind(Hand hand)
     {
-        return true;
+        return hand.Cards
+            .GroupBy(card => card.Symbol)
+            .Any(g => g.Count() == 3);
     }
 
     public bool IsTwoPair(Hand hand)
     {
-        return true;
+        return hand.Cards
+            .GroupBy(card => card.Symbol)
+            .Select(g => g.Count())
+            .OrderBy(x => x)
+            .SequenceEqual(new int[] { 1, 2, 2 });
     }
 
     public bool IsOnePair(Hand hand)
     {
-        return true;
+        return hand.Cards
+            .GroupBy(card => card.Symbol)
+            .Any(g => g.Count() == 2);
     }
 
     public bool IsHighCard(Hand hand) => true;

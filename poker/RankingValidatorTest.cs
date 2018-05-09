@@ -62,4 +62,44 @@ public class RankingValidatorTest
         // Act & Assert
         Assert.True(validator.IsFullHouse(hand));
     }
+
+    [Theory]
+    [InlineData("4S 5H 4C 8S 4H")]
+    [InlineData("2S 2H 2C 8D JH")]
+    public void IsThreeOfAKind_should_be_true(string pokerHand)
+    {
+        // Arrange 
+        var hand = new Hand(pokerHand);
+        var validator = new RankingValidator();
+
+        // Act & Assert
+        Assert.True(validator.IsThreeOfAKind(hand));
+    }
+
+    [Theory]
+    [InlineData("4S 5H 4C 8C 5C")]
+    [InlineData("2S QS 2C QD JH")]
+    [InlineData("JD QH JS 8D QC")]
+    public void IsTwoPair_should_be_true(string pokerHand)
+    {
+        // Arrange 
+        var hand = new Hand(pokerHand);
+        var validator = new RankingValidator();
+
+        // Act & Assert
+        Assert.True(validator.IsTwoPair(hand));
+    }
+
+    [Theory]
+    [InlineData("2S 4H 6S 4D JH")]
+    [InlineData("2S 8H 6S 8D JH")]
+    public void IsOnePair_should_be_true(string pokerHand)
+    {
+        // Arrange 
+        var hand = new Hand(pokerHand);
+        var validator = new RankingValidator();
+
+        // Act & Assert
+        Assert.True(validator.IsOnePair(hand));
+    }
 }
