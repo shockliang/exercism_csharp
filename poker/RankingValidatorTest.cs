@@ -119,7 +119,7 @@ public class RankingValidatorTest
     }
 
     [Fact]
-    public void StraightFlush_should_be_highest_ranking_than_straight()
+    public void StraightFlush_should_be_highest_ranking_than_straight_and_flush()
     {
         // Arrange
         var hand = new Hand("7S 8S 9S 6S 10S");

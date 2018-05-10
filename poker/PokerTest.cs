@@ -36,7 +36,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void One_pair_beats_high_card()
     {
         var actual = Poker.BestHands(new[] { "4S 5H 6C 8D KH", "2S 4H 6S 4D JH" });
@@ -52,7 +52,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Two_pairs_beats_one_pair()
     {
         var actual = Poker.BestHands(new[] { "2S 8H 6S 8D JH", "4S 5H 4C 8C 5C" });
@@ -84,7 +84,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Three_of_a_kind_beats_two_pair()
     {
         var actual = Poker.BestHands(new[] { "2S 8H 2H 8D JH", "4S 5H 4C 8S 4H" });
@@ -108,7 +108,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void A_straight_beats_three_of_a_kind()
     {
         var actual = Poker.BestHands(new[] { "4S 5H 4C 8D 4H", "3S 4D 2S 6D 5C" });
@@ -148,7 +148,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Flush_beats_a_straight()
     {
         var actual = Poker.BestHands(new[] { "4C 6H 7D 8D 5H", "2S 4S 5S 6S 7S" });
@@ -164,7 +164,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Full_house_beats_a_flush()
     {
         var actual = Poker.BestHands(new[] { "3H 6H 7H 8H 5H", "4S 5H 4C 5D 4H" });
@@ -188,7 +188,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Four_of_a_kind_beats_a_full_house()
     {
         var actual = Poker.BestHands(new[] { "4S 5H 4D 5D 4H", "3S 3H 2S 3D 3C" });
@@ -212,7 +212,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Straight_flush_beats_four_of_a_kind()
     {
         var actual = Poker.BestHands(new[] { "4S 5H 5S 5D 5C", "7S 8S 9S 6S 10S" });

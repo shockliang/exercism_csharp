@@ -9,9 +9,12 @@ public static class Poker
         if (hands.Count() == 1)
             return hands;
 
-        var pokerHands = hands.Select(hand => new Hand(hand));
+        var bestHands = hands
+            .Select(hand => new Hand(hand))
+            .BestHands()
+            .Select(hand => hand.ToString());
 
-        return new string[] { };
+        return bestHands;
     }
 }
 
@@ -36,8 +39,10 @@ public enum Ranking : int
     HighCard,
 }
 
-public class Hand
+public class Hand : IComparable<Hand>
 {
+    private readonly string hand;
+
     public Ranking Ranking { get; private set; }
     public IEnumerable<Card> Cards { get; private set; }
     public Hand(string hand)
@@ -45,18 +50,31 @@ public class Hand
         Cards = hand
             .Split(' ')
             .Select(card => new Card(card));
+        Ranking = new RankingValidator().GetHighestRanking(this);
+        this.hand = hand;
+    }
+
+    public override string ToString() => hand;
+
+    public int CompareTo(Hand other)
+    {
+        return this.Ranking.CompareTo(other.Ranking);
     }
 }
 
 public class Card
 {
+    private readonly string card;
     public char Suit { get; private set; }
     public char Symbol { get; private set; }
     public Card(string card)
     {
         Symbol = card.Length > 2 ? 'T' : card.FirstOrDefault();
         Suit = card.LastOrDefault();
+        this.card = card;
     }
+
+    public override string ToString() => card;
 }
 
 public class RankingValidator
@@ -142,12 +160,20 @@ public class RankingValidator
     }
 
     public bool IsHighCard(Hand hand) => true;
-
-
 }
 
 public static class Extensions
 {
+    public static IEnumerable<Hand> BestHands(this IEnumerable<Hand> hands)
+    {
+        var bestHands = hands
+            .Select(hand => (ranking: hand.Ranking, card: hand.ToString()))
+            .OrderBy(hand => hand.ranking);
+
+        var best = bestHands.FirstOrDefault().ranking;
+
+        return hands.Where(hand => hand.Ranking == best);
+    }
     public static int SymbolId(this Card card)
     {
         if (char.IsLetter(card.Symbol))
