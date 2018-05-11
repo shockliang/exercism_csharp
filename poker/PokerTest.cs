@@ -12,7 +12,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Highest_card_out_of_all_hands_wins()
     {
         var actual = Poker.BestHands(new[] { "4D 5S 6S 8D 3C", "2S 4C 7S 9H 10H", "3S 4S 5D 6H JH" });
@@ -20,7 +20,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void A_tie_has_multiple_winners()
     {
         var actual = Poker.BestHands(new[] { "4D 5S 6S 8D 3C", "2S 4C 7S 9H 10H", "3S 4S 5D 6H JH", "3H 4H 5C 6C JD" });
@@ -92,7 +92,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Both_hands_have_three_of_a_kind_tie_goes_to_highest_ranked_triplet()
     {
         var actual = Poker.BestHands(new[] { "2S 2H 2C 8D JH", "4S AH AS 8C AD" });
@@ -116,7 +116,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Aces_can_end_a_straight_10_j_q_k_a_()
     {
         var actual = Poker.BestHands(new[] { "4S 5H 4C 8D 4H", "10D JH QS KD AC" });
@@ -124,7 +124,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Aces_can_start_a_straight_a_2_3_4_5_()
     {
         var actual = Poker.BestHands(new[] { "4S 5H 4C 8D 4H", "4D AH 3S 2D 5C" });
@@ -132,7 +132,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Both_hands_with_a_straight_tie_goes_to_highest_ranked_card()
     {
         var actual = Poker.BestHands(new[] { "4S 6C 7S 8D 5H", "5S 7H 8S 9D 6H" });

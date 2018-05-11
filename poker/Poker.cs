@@ -12,6 +12,7 @@ public static class Poker
         var bestHands = hands
             .Select(hand => new Hand(hand))
             .BestHands()
+            .HighestSymbols()
             .Select(hand => hand.ToString());
 
         return bestHands;
@@ -45,13 +46,23 @@ public class Hand : IComparable<Hand>
 
     public Ranking Ranking { get; private set; }
     public IEnumerable<Card> Cards { get; private set; }
+    public char HighestSymbol { get; private set; }
+
     public Hand(string hand)
     {
+        this.hand = hand;
+
         Cards = hand
             .Split(' ')
             .Select(card => new Card(card));
+
         Ranking = new RankingValidator().GetHighestRanking(this);
-        this.hand = hand;
+        HighestSymbol = Cards
+            .Select(card => card.Symbol)
+            .Select(symbol => (idx: "23456789TJQKA".IndexOf(symbol), symbol: symbol))
+            .OrderByDescending(data => data.idx)
+            .FirstOrDefault()
+            .symbol;
     }
 
     public override string ToString() => hand;
@@ -130,9 +141,9 @@ public class RankingValidator
     public bool IsStraight(Hand hand)
     {
         // T, J, Q, K, A
-        if(hand.Cards.Select(card => card.Symbol).All(char.IsLetter))
+        if (hand.Cards.Select(card => card.Symbol).All(char.IsLetter))
             return true;
-        
+
         var symbols = hand.Cards.Select(card => card.SymbolId()).OrderBy(x => x);
         var start = symbols.FirstOrDefault();
         var sequence = Enumerable.Range(start, 5);
@@ -177,6 +188,17 @@ public static class Extensions
         var best = bestHands.FirstOrDefault().ranking;
 
         return hands.Where(hand => hand.Ranking == best);
+    }
+
+    public static IEnumerable<Hand> HighestSymbols(this IEnumerable<Hand> hands)
+    {
+        var highestSymbol = hands
+            .Select(hand => hand.HighestSymbol)
+            .Select(symbol => (idx: "23456789TJQKA".IndexOf(symbol), symbol: symbol))
+            .OrderByDescending(data => data.idx)
+            .FirstOrDefault()
+            .symbol;
+        return hands.Where(hand => hand.HighestSymbol == highestSymbol);
     }
     public static int SymbolId(this Card card)
     {

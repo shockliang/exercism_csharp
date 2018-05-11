@@ -129,7 +129,7 @@ public class RankingValidatorTest
 
         // Act
         var actual = rankingValidator.GetHighestRanking(hand);
-        
+
         // Assert
         Assert.Equal(Ranking.FullHouse, actual);
     }
@@ -143,8 +143,24 @@ public class RankingValidatorTest
 
         // Act
         var actual = rankingValidator.GetHighestRanking(hand);
-        
+
         // Assert
         Assert.Equal(Ranking.StraightFlush, actual);
+    }
+
+    [Theory]
+    [InlineData("3S 4S 5D 6H JH", 'J')]
+    [InlineData("4S AH 3S 2D 5H", 'A')]
+    [InlineData("10D JH QS KD AC", 'A')]
+    [InlineData("9S 10D JH QS KD", 'K')]
+    public void Compare_highest_symbol_should_as_expected(string pokerHand, char expected)
+    {
+        // Arrange
+        var hand = new Hand(pokerHand);
+        
+        // Act
+        var actual = hand.HighestSymbol;
+
+        Assert.Equal(expected, actual);
     }
 }
