@@ -129,6 +129,10 @@ public class RankingValidator
 
     public bool IsStraight(Hand hand)
     {
+        // T, J, Q, K, A
+        if(hand.Cards.Select(card => card.Symbol).All(char.IsLetter))
+            return true;
+        
         var symbols = hand.Cards.Select(card => card.SymbolId()).OrderBy(x => x);
         var start = symbols.FirstOrDefault();
         var sequence = Enumerable.Range(start, 5);

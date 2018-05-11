@@ -3,6 +3,8 @@ public class RankingValidatorTest
 {
     [Theory]
     [InlineData("3S 4D 2S 6D 5C")]
+    [InlineData("10D JH QS KD AC")]
+    [InlineData("4D AH 3S 2D 5C")]
     public void IsStraight_should_be_true(string pokerHand)
     {
         // Arrange 
@@ -11,6 +13,20 @@ public class RankingValidatorTest
 
         // Act & Assert
         Assert.True(validator.IsStraight(hand));
+    }
+
+    [Theory]
+    [InlineData("JD QD KD AC 2H")]
+    [InlineData("QD KD AC 2H 3S")]
+    [InlineData("KD AC 2H 3S 4S")]
+    public void These_hands_should_not_straight(string pokerHand)
+    {
+        // Arrange 
+        var hand = new Hand(pokerHand);
+        var validator = new RankingValidator();
+
+        // Act & Assert
+        Assert.False(validator.IsStraight(hand));
     }
 
     [Theory]
