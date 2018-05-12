@@ -28,7 +28,7 @@ public class PokerTest
         Assert.Equal(expected, actual);
     }
 
-    [Fact(Skip = "Remove to run test")]
+    [Fact]
     public void Multiple_hands_with_the_same_high_cards_tie_compares_next_highest_ranked_down_to_last_card()
     {
         var actual = Poker.BestHands(new[] { "3S 5H 6S 8D 7H", "2S 5D 6D 8C 7S" });

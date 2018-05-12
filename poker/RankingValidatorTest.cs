@@ -159,7 +159,7 @@ public class RankingValidatorTest
         var hand = new Hand(pokerHand);
         
         // Act
-        var actual = hand.HighestSymbol;
+        var actual = hand.BestSymbol;
 
         Assert.Equal(expected, actual);
     }

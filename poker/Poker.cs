@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public static class Poker
 {
+    public static readonly string SymbolOreder = "23456789TJQKA";
+    public static readonly string SuitOreder = "DCHS";
     public static IEnumerable<string> BestHands(IEnumerable<string> hands)
     {
         if (hands.Count() == 1)
@@ -11,11 +13,27 @@ public static class Poker
 
         var bestHands = hands
             .Select(hand => new Hand(hand))
-            .BestHands()
-            .HighestSymbols()
+            .BestHands();
+
+        var bestSymbols = bestHands
+            .BestSymbols();
+
+        switch (bestHands.FirstOrDefault().Ranking)
+        {
+            case Ranking.HighCard:  // Only compare symbols
+                var bestSymbolScore = bestSymbols.Max(hand => hand.SymbolScore);
+                return bestSymbols
+                    .Where(hand => hand.SymbolScore == bestSymbolScore)
+                    .Select(hand => hand.ToString());
+
+        }
+        var bestSuits = bestSymbols
+            .BestSuits();
+        var result = bestSuits
             .Select(hand => hand.ToString());
 
-        return bestHands;
+        // return bestHands;
+        return result;
     }
 }
 
@@ -46,7 +64,11 @@ public class Hand : IComparable<Hand>
 
     public Ranking Ranking { get; private set; }
     public IEnumerable<Card> Cards { get; private set; }
-    public char HighestSymbol { get; private set; }
+    public char BestSymbol { get; private set; }
+    public IEnumerable<char> Symbols { get; private set; }
+    public int SymbolScore { get; private set; }
+    public char BestSuit { get; private set; }
+    public IEnumerable<char> Suits { get; private set; }
 
     public Hand(string hand)
     {
@@ -57,12 +79,28 @@ public class Hand : IComparable<Hand>
             .Select(card => new Card(card));
 
         Ranking = new RankingValidator().GetHighestRanking(this);
-        HighestSymbol = Cards
+
+
+        var sortSymbols = Cards
             .Select(card => card.Symbol)
-            .Select(symbol => (idx: "23456789TJQKA".IndexOf(symbol), symbol: symbol))
-            .OrderByDescending(data => data.idx)
+            .Select(symbol => (idx: Poker.SymbolOreder.IndexOf(symbol), symbol: symbol))
+            .OrderByDescending(data => data.idx);
+
+        Symbols = sortSymbols.Select(data => data.symbol);
+        SymbolScore = Cards.Sum(card => card.SymbolId());
+        BestSymbol = sortSymbols
             .FirstOrDefault()
             .symbol;
+
+        var sortSuits = Cards
+            .Select(card => card.Suit)
+            .Select(suit => (idx: Poker.SuitOreder.IndexOf(suit), suit: suit))
+            .OrderByDescending(data => data.idx);
+
+        Suits = sortSuits.Select(data => data.suit);
+        BestSuit = sortSuits
+            .FirstOrDefault()
+            .suit;
     }
 
     public override string ToString() => hand;
@@ -190,16 +228,39 @@ public static class Extensions
         return hands.Where(hand => hand.Ranking == best);
     }
 
-    public static IEnumerable<Hand> HighestSymbols(this IEnumerable<Hand> hands)
+    public static IEnumerable<Hand> BestSymbols(this IEnumerable<Hand> hands)
     {
-        var highestSymbol = hands
-            .Select(hand => hand.HighestSymbol)
-            .Select(symbol => (idx: "23456789TJQKA".IndexOf(symbol), symbol: symbol))
+        var bestSymbol = FindBestSymbol(hands);
+        return hands.Where(hand => hand.BestSymbol == bestSymbol);
+    }
+
+    public static char FindBestSymbol(IEnumerable<Hand> hands)
+    {
+        return hands
+            .Select(hand => hand.BestSymbol)
+            .Select(symbol => (idx: Poker.SymbolOreder.IndexOf(symbol), symbol: symbol))
             .OrderByDescending(data => data.idx)
             .FirstOrDefault()
             .symbol;
-        return hands.Where(hand => hand.HighestSymbol == highestSymbol);
     }
+
+    public static IEnumerable<Hand> BestSuits(this IEnumerable<Hand> hands)
+    {
+        var bestSuit = FindBestSuit(hands);
+        var bestSymbol = FindBestSymbol(hands);
+        return hands.Where(hand => hand.BestSuit == bestSuit);
+    }
+
+    public static char FindBestSuit(IEnumerable<Hand> hands)
+    {
+        return hands
+            .Select(hand => hand.BestSuit)
+            .Select(suit => (idx: Poker.SuitOreder.IndexOf(suit), suit: suit))
+            .OrderByDescending(data => data.idx)
+            .FirstOrDefault()
+            .suit;
+    }
+
     public static int SymbolId(this Card card)
     {
         if (char.IsLetter(card.Symbol))
